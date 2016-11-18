@@ -1,0 +1,57 @@
+8
+
+dir
+10683
+svn://yxs@192.168.11.191/trunk/IOS/%E8%84%89%E5%8D%95/MaiDanSH/MaiDanSH/Vendors/CoreLock/CoreArchive
+svn://yxs@192.168.11.191
+
+
+
+2016-06-27T02:44:10.718510Z
+7456
+suxr
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+3eea504f-5454-164e-a0b6-d2b966550c07
+
+CoreArchive.h
+file
+
+
+
+
+2016-07-05T02:07:19.000000Z
+c1343649f94f8526bc12dedbf2641e13
+2016-06-27T02:44:10.718510Z
+7456
+suxr
+has-props
+
+CoreArchive.m
+file
+
+
+
+
+2016-07-05T02:07:19.000000Z
+b3b6c55aa36213d27f8c94877f56bc1d
+2016-06-27T02:44:10.718510Z
+7456
+suxr
+has-props
+
+Category
+dir
+

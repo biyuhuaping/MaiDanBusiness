@@ -1,0 +1,554 @@
+//
+//  API.m
+//  DaJiaZhuanSH
+//
+//  Created by feng on 15/10/10.
+//  Copyright © 2015年 feng. All rights reserved.
+//
+
+#import "API.h"
+#import "MBProgressHUD.h"
+//#import <MBProgressHUD.h>
+
+@implementation API
+
+
++(API *)shareAPI{
+    static API *dataHanle = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        dataHanle = [[API alloc] init];
+    });
+    
+    return dataHanle;
+}
+NSURL *fullURLWithPath(NSString *path) {
+    NSURL *_url;
+    if ([path hasPrefix:@"http://"]) {
+        _url = [NSURL URLWithString:[path stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+    } else {
+        _url = [NSURL URLWithString:[[NSString stringWithFormat:@"%@%@", G_SERVER_URL, path] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+    }
+    NSLog(@"开始调用 %@", _url);
+    return _url;
+}
+
+- (void )createRequestWithPath:(NSString *)path{
+
+    __weak API *weakSelf = self;
+    
+    AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:[NSURLRequest requestWithURL:fullURLWithPath(path)]];
+    operation.responseSerializer = [AFJSONResponseSerializer serializer];
+    [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) //成功
+     {
+        weakSelf.Completion(responseObject);
+     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+         NSLog(@"%@", error);
+         [SVProgressHUD dismiss];
+     }];
+    
+    
+    [operation start];
+    
+}
+
+
+
+
+
+/**
+ *  数据请求
+ */
+#pragma mark - 数据请求
+//用户登录判断
+- (void)getAPI:(NSString *)api loginPhone:(NSString *)phone passWord:(NSString *)pass deviceType:(NSString *)device  completion:(APICompletion)Completion{
+    NSString *strUrl = [NSString stringWithFormat:@"%@",api];
+    strUrl = [strUrl stringByAppendingFormat:@"/%@",phone];
+    strUrl = [strUrl stringByAppendingFormat:@"/%@",pass];
+    strUrl = [strUrl stringByAppendingFormat:@"/%@",device];
+    strUrl = [strUrl stringByReplacingOccurrencesOfString:@" " withString:@""]; //字符串去空
+
+    [self createRequestWithPath:strUrl];
+    self.Completion = Completion;
+
+}
+
+//获取用户信息
+- (void)getUserInfo:(APICompletion)Completion{
+    
+    [API shareAPI].strShopID = [[API shareAPI]getLocalData:G_SHOP_ID];
+    [API shareAPI].strWorkerID= [[API shareAPI]getLocalData:G_WORKER_ID];
+
+    NSString *strUrl = [NSString stringWithFormat:@"%@",@"Business-WebService/seller/"];
+    
+    strUrl = [strUrl stringByAppendingFormat:@"detail/%@",_strWorkerID];
+    
+    [[API shareAPI] createRequestWithPath:strUrl];
+    self.Completion = Completion;
+
+}
+
+/**
+ *  获取商家信息
+ *
+ *  @param Completion 请求完成的回调
+ */
+- (void)getShopInfo:(APICompletion)Completion {
+    
+    NSUserDefaults *config = [NSUserDefaults standardUserDefaults];
+    NSString *strShopID = [config objectForKey:G_SHOP_ID];
+    
+    NSString *strUrl = [NSString stringWithFormat:@"%@",API_ShopInfo];
+    strUrl = [strUrl stringByAppendingFormat:@"/%@",strShopID];    //获取商户id
+    
+    [[API shareAPI] createRequestWithPath:strUrl];
+    self.Completion = Completion;
+}
+
+/**
+ *  修改商家信息
+ *
+ *  @param parameters 参数
+ *  @param Completion 请求完成的回调
+ */
+- (void)updateShopInfoWithParameters:(NSDictionary *)parameters completion:(APICompletion)Completion {
+    
+    NSMutableString *reqPars = [NSMutableString string];
+    
+    //生成xml
+    NSArray *keys = [parameters allKeys];
+    [reqPars appendString:@"<xml>\n"];
+    for (NSString *categoryId in keys) {
+        [reqPars appendFormat:@"<%@>%@</%@>\n", categoryId, [parameters objectForKey:categoryId],categoryId];
+    }
+    [reqPars appendString:@"</xml>"];
+    
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",G_SERVER_URL,API_UpdateShopInfo]] cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:5];
+    //设置提交方式
+    [request setHTTPMethod:@"POST"];
+    //设置数据类型
+    [request addValue:@"text/xml" forHTTPHeaderField:@"Content-Type"];
+    //设置编码
+    [request setValue:@"UTF-8" forHTTPHeaderField:@"charset"];
+    //如果是POST
+    [request setHTTPBody:[reqPars dataUsingEncoding:NSUTF8StringEncoding]];
+    
+    NSError *error;
+    //将请求的url数据放到NSData对象中
+    NSData *response = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:&error];
+    
+    id obj = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableContainers error:&error];
+    NSLog(@"error = %@",error);
+    
+    Completion(obj);
+}
+
+//订单确认
+- (void)getOrderconf:(NSString *)text completion:(APICompletion)Completion{
+    
+    
+    NSUserDefaults *config = [NSUserDefaults standardUserDefaults];
+    NSString *strShopID = [config objectForKey:G_SHOP_ID];
+    
+    NSString *strUrl = [NSString stringWithFormat:@"%@",@"Business-WebService/order/orderFinish"];
+    strUrl = [strUrl stringByAppendingFormat:@"/%@",text];
+    strUrl = [strUrl stringByAppendingFormat:@"/%@",strShopID];    //获取商户id
+    
+    strUrl = [strUrl stringByReplacingOccurrencesOfString:@" " withString:@""]; //字符串去空
+    strUrl = [strUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];  //转码成UTF-8  否则可能会出现错误
+   
+    [[API shareAPI] createRequestWithPath:strUrl];
+    self.Completion = Completion;
+}
+
+- (void)getShopImg:(APICompletion)Completion {
+    
+    NSUserDefaults *config = [NSUserDefaults standardUserDefaults];
+    NSString *strShopID = [config objectForKey:G_SHOP_ID];
+    
+    NSString *strUrl = [NSString stringWithFormat:@"%@",API_CommercialPic];
+    strUrl = [strUrl stringByAppendingFormat:@"/%@",strShopID];    //获取商户id
+    
+    strUrl = [strUrl stringByReplacingOccurrencesOfString:@" " withString:@""]; //字符串去空
+    strUrl = [strUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];  //转码成UTF-8  否则可能会出现错误
+    
+    [[API shareAPI] createRequestWithPath:strUrl];
+    self.Completion = Completion;
+}
+
+- (void)postShopImageWithImageData:(NSData *)imageData oldImage:(NSString *)oldImage completion:(APICompletion)Completion {
+
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    
+    NSUserDefaults *config = [NSUserDefaults standardUserDefaults];
+    NSString *strShopID = [config objectForKey:G_SHOP_ID];
+    
+    NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
+    [parameters setValue:strShopID forKey:@"pid"];
+    [parameters setValue:oldImage forKey:@"oldImgUrl"];
+    
+    NSString *urlStr = [NSString stringWithFormat:@"%@%@",G_SERVER_URL,API_UploadImage];
+    [manager POST:urlStr parameters:parameters constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+        NSString *imageName = [NSString stringWithFormat:@"%@_%d.png",strShopID,arc4random() %1000];
+        [formData appendPartWithFileData:imageData
+                                    name:@"file"
+                                fileName:imageName mimeType:@"image/jpeg"];
+    } success:^(NSURLSessionDataTask *task, id responseObject) {
+        !Completion ? : Completion(responseObject);
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        NSLog(@"%@",error);
+    }];
+}
+
+- (void)deleteShopImageWithImageId:(NSString *)imageId completion:(APICompletion)Completion {
+    
+    NSUserDefaults *config = [NSUserDefaults standardUserDefaults];
+    NSString *strShopID = [config objectForKey:G_SHOP_ID];
+    
+    NSString *strUrl = [NSString stringWithFormat:@"%@",API_DeleteImage];
+    strUrl = [strUrl stringByAppendingFormat:@"/%@",strShopID];    //获取商户id
+    strUrl = [strUrl stringByAppendingFormat:@"/%@",imageId];    //图片id
+    
+    strUrl = [strUrl stringByReplacingOccurrencesOfString:@" " withString:@""]; //字符串去空
+    strUrl = [strUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];  //转码成UTF-8  否则可能会出现错误
+    
+    [[API shareAPI] createRequestWithPath:strUrl];
+    self.Completion = Completion;
+}
+
+- (void)saveShopImageWithParameter:(NSDictionary *)parameter completion:(APICompletion)Completion {
+    
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    
+    NSString *urlStr = [NSString stringWithFormat:@"%@%@",G_SERVER_URL,API_SavePic];
+    [manager GET:urlStr parameters:parameter success:^(NSURLSessionDataTask *task, id responseObject) {
+        
+        !Completion ? : Completion(responseObject);
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        NSLog(@"%@",error);
+    }];
+}
+
+- (void)getAPI:(NSString *)api pag:(int)pag  completion:(APICompletion)Completion{
+    NSString *strUrl = [NSString stringWithFormat:@"%@",api];
+    
+    strUrl = [strUrl stringByAppendingFormat:@"/%d",pag];
+    strUrl = [strUrl stringByAppendingFormat:@"/%@",@"10"];
+    strUrl = [strUrl stringByAppendingFormat:@"/%@",_strShopID];
+    
+    [self createRequestWithPath:strUrl];
+    self.Completion = Completion;
+
+}
+- (void)getAPI1:(NSString *)api pag:(int)pag  completion:(APICompletion)Completion{
+    NSString *strUrl = [NSString stringWithFormat:@"%@",api];
+    
+    strUrl = [strUrl stringByAppendingFormat:@"/%@",_strShopID];
+    strUrl = [strUrl stringByAppendingFormat:@"/%d",pag];
+    
+    [self createRequestWithPath:strUrl];
+    self.Completion = Completion;
+
+}
+//- (void)getAPI1:(NSString *)api{
+//    NSString *strUrl = [NSString stringWithFormat:@"%@",api];
+//    
+//    
+//    [self createRequestWithPath:strUrl];
+//
+//}
+//测试
+
+//收益转换
+//- (void)getAPI:(NSString *)api shareScore:(NSString *)share businessScore:(NSString *)business completion:(APICompletion)Completion{
+//    NSString *strUrl = [NSString stringWithFormat:@"%@",api];
+//    strUrl = [strUrl stringByAppendingFormat:@"/%@",_strShopID];
+//    strUrl = [strUrl stringByAppendingFormat:@"/%@",share];
+//    strUrl = [strUrl stringByAppendingFormat:@"/%@",business];
+//    strUrl = [strUrl stringByAppendingFormat:@"/%@",@"1"];
+//    [self createRequestWithPath:strUrl];
+//    self.Completion = Completion;
+//
+//}
+
+- (void)getAPI:(NSString *)api shareScore:(NSString *)share businessScore:(NSString *)business completion:(APICompletion)Completion {
+    NSString *strUrl = [NSString stringWithFormat:@"%@",api];
+    strUrl = [strUrl stringByAppendingFormat:@"/%@",_strShopID];
+    strUrl = [strUrl stringByAppendingFormat:@"/%@",share];
+    strUrl = [strUrl stringByAppendingFormat:@"/%@",business];
+    strUrl = [strUrl stringByAppendingFormat:@"/%@",@"1"];
+    [self createRequestWithPath:strUrl];
+    self.Completion = Completion;
+}
+
+//删除某个订单
+- (void)deleteTheOrder:(NSString *)orderid  completion:(APICompletion)Completion{
+    NSString *strUrl = [NSString stringWithFormat:@"%@",@"API/shopinterface.aspx?op=DelOrder"];
+    strUrl = [strUrl stringByAppendingFormat:@"&shopid=%@",_strShopID];
+    strUrl = [strUrl stringByAppendingFormat:@"&orderid=%@",orderid                                                                                                                                                                                                                                                    ];
+    strUrl = [strUrl stringByReplacingOccurrencesOfString:@" " withString:@""]; //字符串去空
+    [self createRequestWithPath:strUrl];
+    self.Completion = Completion;
+
+}
+
+- (void)getRechargeRecordWithPage:(int)page completion:(APICompletion)Completion {
+    NSUserDefaults *config = [NSUserDefaults standardUserDefaults];
+    NSString *strShopID = [config objectForKey:G_SHOP_ID];
+    
+    NSString *strUrl = [NSString stringWithFormat:@"%@",API_RechargeRecord];
+    strUrl = [strUrl stringByAppendingFormat:@"/%@",strShopID];    //获取商户id
+    strUrl = [strUrl stringByAppendingFormat:@"/%d",page];
+    strUrl = [strUrl stringByAppendingString:@"/10"];
+    strUrl = [strUrl stringByReplacingOccurrencesOfString:@" " withString:@""]; //字符串去空
+    strUrl = [strUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];  //转码成UTF-8  否则可能会出现错误
+    
+    [[API shareAPI] createRequestWithPath:strUrl];
+    self.Completion = Completion;
+}
+
+- (void)getWithdrawRecordWithPage:(int)page completion:(APICompletion)Completion {
+    
+    NSUserDefaults *config = [NSUserDefaults standardUserDefaults];
+    NSString *strShopID = [config objectForKey:G_SHOP_ID];
+    
+    NSString *strUrl = [NSString stringWithFormat:@"%@",API_WithdrawRecord];
+    strUrl = [strUrl stringByAppendingFormat:@"/%@",strShopID];    //获取商户id
+    strUrl = [strUrl stringByAppendingFormat:@"/%d",page];
+    strUrl = [strUrl stringByAppendingString:@"/10"];
+    strUrl = [strUrl stringByReplacingOccurrencesOfString:@" " withString:@""]; //字符串去空
+    strUrl = [strUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];  //转码成UTF-8  否则可能会出现错误
+    
+    [[API shareAPI] createRequestWithPath:strUrl];
+    self.Completion = Completion;
+}
+
+- (void)getAPI:(NSString *)api ChildID:(NSString *)strChildID childType:(NSString *)strChildType  completion:(APICompletion)Completion{
+    NSString *strUrl = [NSString stringWithFormat:@"%@",api];
+    strUrl = [strUrl stringByAppendingFormat:@"&childid=%@",strChildID];
+    strUrl = [strUrl stringByAppendingFormat:@"&childtype=%@",strChildType];
+    [self createRequestWithPath:strUrl];
+    self.Completion = Completion;
+
+}
+
+
+//支付充值
+- (void)getAPI:(NSString *)api money:(NSString *)payMoney  payType:(NSString *)payType  completion:(APICompletion)Completion{
+    NSString *strUrl = [NSString stringWithFormat:@"%@",api];
+    
+    strUrl = [strUrl stringByAppendingFormat:@"/%@",_strShopID];
+    strUrl = [strUrl stringByAppendingFormat:@"/%@",payMoney];
+    strUrl = [strUrl stringByAppendingFormat:@"/%@",@"1"];//1是ios 2是安卓
+    strUrl = [strUrl stringByAppendingFormat:@"/%@",payType];//3是支付宝 4是微信
+
+    [self createRequestWithPath:strUrl];
+    self.Completion = Completion;
+
+}
+
+- (void)getWithdrawInfo:(APICompletion)Completion {
+    
+    NSUserDefaults *config = [NSUserDefaults standardUserDefaults];
+    NSString *strShopID = [config objectForKey:G_SHOP_ID];
+    
+    NSString *strUrl = [NSString stringWithFormat:@"%@",API_WithdrawInfo];
+    strUrl = [strUrl stringByAppendingFormat:@"/%@",strShopID];    //获取商户id
+    strUrl = [strUrl stringByReplacingOccurrencesOfString:@" " withString:@""]; //字符串去空
+    strUrl = [strUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];  //转码成UTF-8  否则可能会出现错误
+    
+    [[API shareAPI] createRequestWithPath:strUrl];
+    self.Completion = Completion;
+}
+
+/**
+ *  获取提现分享币时需要扣的税
+ *
+ *  @param amount     提现金额
+ *  @param type       提现类型
+ *  @param Completion 请求完成的回调
+ */
+- (void)getWithdrawShareCoinTaxWithAmount:(NSString *)amount type:(NSString *)type completion:(APICompletion)Completion {
+    
+    NSUserDefaults *config = [NSUserDefaults standardUserDefaults];
+    NSString *strShopID = [config objectForKey:G_SHOP_ID];
+    
+    NSString *strUrl = [NSString stringWithFormat:@"%@",API_WithdrawTax];
+    strUrl = [strUrl stringByAppendingFormat:@"/%@",strShopID];     //获取商户id
+    strUrl = [strUrl stringByAppendingFormat:@"/%@",amount];        //提现金额
+    strUrl = [strUrl stringByAppendingFormat:@"/%@",type];          //提现类型
+    strUrl = [strUrl stringByReplacingOccurrencesOfString:@" " withString:@""]; //字符串去空
+    strUrl = [strUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];  //转码成UTF-8  否则可能会出现错误
+    
+    [[API shareAPI] createRequestWithPath:strUrl];
+    self.Completion = Completion;
+}
+
+- (void)submitWithdrawWithAmount:(NSString *)amount type:(NSString *)type isInvoiced:(BOOL)isInvoiced completion:(APICompletion)Completion {
+    
+    NSUserDefaults *config = [NSUserDefaults standardUserDefaults];
+    NSString *strShopID = [config objectForKey:G_SHOP_ID];
+    
+    NSString *strUrl = [NSString stringWithFormat:@"%@",API_SubmitWithdraw];
+    strUrl = [strUrl stringByAppendingFormat:@"/%@",strShopID];    //获取商户id
+    strUrl = [strUrl stringByAppendingFormat:@"/%@",type];    //提现方式
+    strUrl = [strUrl stringByAppendingFormat:@"/%d",isInvoiced];    //是否开发票
+    strUrl = [strUrl stringByAppendingFormat:@"/%@",amount];    //获取商户id
+    strUrl = [strUrl stringByReplacingOccurrencesOfString:@" " withString:@""]; //字符串去空
+    strUrl = [strUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];  //转码成UTF-8  否则可能会出现错误
+    
+    [[API shareAPI] createRequestWithPath:strUrl];
+    self.Completion = Completion;
+}
+
+- (void)bindingCardWithBankName:(NSString *)bankName bankAccount:(NSString *)bankAccount bankPerson:(NSString *)bankPerson bankProvince:(NSString *)bankProvince bankCity:(NSString *)bankCity bankArea:(NSString *)bankArea completion:(APICompletion)Completion {
+    
+    NSString *strShopID = [[API shareAPI] getLocalData:G_SHOP_ID];
+    
+    NSString *strUrl = [NSString stringWithFormat:@"%@",API_BindingCard];
+    strUrl = [strUrl stringByAppendingFormat:@"/%@",strShopID];    //获取商户id
+    strUrl = [strUrl stringByAppendingFormat:@"/%@",bankName];    //获取商户id
+    strUrl = [strUrl stringByAppendingFormat:@"/%@",bankAccount];    //获取商户id
+    strUrl = [strUrl stringByAppendingFormat:@"/%@",bankPerson];    //获取商户id
+    strUrl = [strUrl stringByAppendingFormat:@"/%@",bankProvince];    //获取商户id
+    strUrl = [strUrl stringByAppendingFormat:@"/%@",bankCity];    //获取商户id
+    strUrl = [strUrl stringByAppendingFormat:@"/%@",bankArea];    //获取商户id
+    strUrl = [strUrl stringByReplacingOccurrencesOfString:@" " withString:@""]; //字符串去空
+    strUrl = [strUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];  //转码成UTF-8  否则可能会出现错误
+    
+    [[API shareAPI] createRequestWithPath:strUrl];
+    self.Completion = Completion;
+}
+
+- (void)getAllProvince:(APICompletion)Completion {
+    
+    NSString *strUrl = [NSString stringWithFormat:@"http://clientapi.91maidan.com/%@",API_AllProvince];
+    strUrl = [strUrl stringByReplacingOccurrencesOfString:@" " withString:@""]; //字符串去空
+    strUrl = [strUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];  //转码成UTF-8  否则可能会出现错误
+    
+    [[API shareAPI] createRequestWithPath:strUrl];
+    self.Completion = Completion;
+}
+
+- (void)getAllCityWithProvinceId:(NSString *)provinceId completion:(APICompletion)Completion {
+    
+    NSString *strUrl = [NSString stringWithFormat:@"http://clientapi.91maidan.com/%@",API_AllCity];
+    strUrl = [strUrl stringByAppendingFormat:@"/%@",provinceId];    //省id
+    strUrl = [strUrl stringByReplacingOccurrencesOfString:@" " withString:@""]; //字符串去空
+    strUrl = [strUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];  //转码成UTF-8  否则可能会出现错误
+    
+    [[API shareAPI] createRequestWithPath:strUrl];
+    self.Completion = Completion;
+}
+
+- (void)getAllRegionWithCityId:(NSString *)cityId completion:(APICompletion)Completion {
+    
+    NSString *strUrl = [NSString stringWithFormat:@"http://clientapi.91maidan.com/%@",API_AllRegion];
+    strUrl = [strUrl stringByAppendingFormat:@"/%@",cityId];    //市id
+    strUrl = [strUrl stringByReplacingOccurrencesOfString:@" " withString:@""]; //字符串去空
+    strUrl = [strUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];  //转码成UTF-8  否则可能会出现错误
+    
+    [[API shareAPI] createRequestWithPath:strUrl];
+    self.Completion = Completion;
+}
+
+- (void)feedBackWithMessage:(NSString *)message completion:(APICompletion)Completion {
+    
+    NSString *strUrl = [NSString stringWithFormat:@"%@",API_FeedBack];
+    strUrl = [strUrl stringByAppendingFormat:@"/%@",[[API shareAPI] getLocalData:G_WORKER_ID]];
+    strUrl = [strUrl stringByAppendingFormat:@"/%@",message];
+    strUrl = [strUrl stringByReplacingOccurrencesOfString:@" " withString:@""]; //字符串去空
+    strUrl = [strUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];  //转码成UTF-8  否则可能会出现错误
+    
+    [[API shareAPI] createRequestWithPath:strUrl];
+    self.Completion = Completion;
+}
+
+- (void)getShopTypeWithParentId:(NSString *)parentId completion:(APICompletion)Completion {
+    
+    NSString *strUrl = [NSString stringWithFormat:@"%@",API_ShopType];
+    strUrl = [strUrl stringByAppendingFormat:@"/%@",parentId];
+    strUrl = [strUrl stringByReplacingOccurrencesOfString:@" " withString:@""]; //字符串去空
+    strUrl = [strUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];  //转码成UTF-8  否则可能会出现错误
+    
+    [[API shareAPI] createRequestWithPath:strUrl];
+    self.Completion = Completion;
+}
+
+//版本更新
+- (void)checkAPI:(NSString *)api  completion:(APICompletion)Completion{
+    //当前app版本获取
+    NSDictionary *infoDic = [[NSBundle mainBundle] infoDictionary];
+    
+    NSString *appVersion = [infoDic objectForKey:@"CFBundleShortVersionString"];
+    NSString *strUrl = [NSString stringWithFormat:@"%@",api];
+    strUrl = [strUrl stringByAppendingFormat:@"/%@",@"iosseller"];
+    strUrl = [strUrl stringByAppendingFormat:@"/%@",appVersion];
+    [self createRequestWithPath:strUrl];
+    self.Completion = Completion;
+
+}
+
+
+- (NSString *)objectToJson:(id)object {
+    NSError *error = nil;
+    NSData  *jsonData = [NSJSONSerialization dataWithJSONObject:object options:NSJSONWritingPrettyPrinted error:&error];
+    return [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+}
+
+- (id)jsonToObject:(NSString *)json {
+    NSError *error = nil;
+    id obj = [NSJSONSerialization JSONObjectWithData:[json dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:&error];
+    return obj;
+}
+
++ (void)hudWithText:(NSString *)text {
+    UIWindow *keyWindow = [UIApplication sharedApplication].keyWindow;
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:keyWindow animated:YES];
+    hud.detailsLabelText = text;
+    hud.mode = MBProgressHUDModeText;
+    [hud hide:YES afterDelay:1.5];
+}
+
+//错误框提醒
++ (void)hudWithText:(NSString *)text atView:(UIView *)view {
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:view animated:YES];
+    hud.detailsLabelText = text;
+    hud.mode = MBProgressHUDModeText;
+    [hud hide:YES afterDelay:1.5];
+}
+
+/**
+ *  数据存储和管理
+ */
+
+#pragma mark - 数据存储和管理
+//获取当前的时间戳.毫秒数
+- (int)currentTime {
+    NSTimeInterval time = [[NSDate date] timeIntervalSince1970];
+    return time;
+}
+//本地保存
+- (void)saveLocalData:(NSString *)key value:(id)value {
+    [[NSUserDefaults standardUserDefaults] setObject:value forKey:key];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+//移除本地数据
+- (void)removeLocalData:(NSString *) key {
+    return [[NSUserDefaults standardUserDefaults] removeObjectForKey:key];
+}
+//获取本地数据
+- (id)getLocalData:(NSString * )key {
+    return [[NSUserDefaults standardUserDefaults] objectForKey:key];
+}
+-(NSString *)notRounding:(NSString *)price1 afterPoint:(int)position{
+    float price = [price1 floatValue];
+    NSDecimalNumberHandler* roundingBehavior = [NSDecimalNumberHandler decimalNumberHandlerWithRoundingMode:NSRoundDown scale:position raiseOnExactness:NO raiseOnOverflow:NO raiseOnUnderflow:NO raiseOnDivideByZero:NO];
+    NSDecimalNumber *ouncesDecimal;
+    NSDecimalNumber *roundedOunces;
+    
+    ouncesDecimal = [[NSDecimalNumber alloc] initWithFloat:price];
+    roundedOunces = [ouncesDecimal decimalNumberByRoundingAccordingToBehavior:roundingBehavior];
+    return [NSString stringWithFormat:@"%@",roundedOunces];
+}
+@end

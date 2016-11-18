@@ -1,0 +1,238 @@
+//
+//  API.h
+//  DaJiaZhuanSH
+//
+//  Created by feng on 15/10/10.
+//  Copyright © 2015年 feng. All rights reserved.
+//
+
+#import <Foundation/Foundation.h>
+typedef void (^APICompletion) (id responseData);
+@interface API : NSObject
+
+@property (nonatomic, copy) APICompletion Completion;
+@property (nonatomic, strong) NSString *strShopID;
+@property (nonatomic, strong) NSString *strWorkerID;
+@property (strong, nonatomic) NSString *trackVireUrl;
+
++ (API *)shareAPI;
+NSURL *fullURLWithPath(NSString *path);
+NSURL *fullURLWithPath1(NSString *path);
+
+/**
+ *  登录
+ *
+ *  @param api        url地址
+ *  @param phone      手机号
+ *  @param pass       密码
+ *  @param device     设备id
+ *  @param Completion 请求完成的回调
+ */
+- (void)getAPI:(NSString *)api loginPhone:(NSString *)phone passWord:(NSString *)pass deviceType:(NSString *)device  completion:(APICompletion)Completion;
+
+/**
+ *  获取用户信息
+ *
+ *  @param Completion 请求完成的回调
+ */
+- (void)getUserInfo:(APICompletion)Completion;
+
+/**
+ *  获取商家信息
+ *
+ *  @param Completion 请求完成的回调
+ */
+- (void)getShopInfo:(APICompletion)Completion;
+
+/**
+ *  修改商家信息
+ *
+ *  @param parameters 参数
+ *  @param Completion 请求完成的回调
+ */
+- (void)updateShopInfoWithParameters:(NSDictionary *)parameters completion:(APICompletion)Completion;
+
+/**
+ *  订单确认
+ *
+ *  @param text       订单号
+ *  @param Completion 请求完成的回调
+ */
+- (void)getOrderconf:(NSString *)text completion:(APICompletion)Completion;
+
+/**
+ *  获取商户的三个图片
+ *
+ *  @param Completion 请求完成的回调
+ */
+- (void)getShopImg:(APICompletion)Completion;
+
+/**
+ *  上传图片
+ *
+ *  @param imageData  图片的二进制文件
+ *  @param oldImage   旧图片地址
+ *  @param Completion 请求完成的回调
+ */
+- (void)postShopImageWithImageData:(NSData *)imageData oldImage:(NSString *)oldImage completion:(APICompletion)Completion;
+
+/**
+ *  删除图片
+ *
+ *  @param imageId    图片编号
+ *  @param Completion 请求完成的回调
+ */
+- (void)deleteShopImageWithImageId:(NSString *)imageId completion:(APICompletion)Completion;
+
+/**
+ *  保存图片
+ *
+ *  @param parameter  参数
+ *  @param Completion 请求完成的回调
+ */
+- (void)saveShopImageWithParameter:(NSDictionary *)parameter completion:(APICompletion)Completion;
+
+/**
+ *  删除某个订单
+ *
+ *  @param orderid    订单号
+ *  @param Completion 请求完成的回调
+ */
+- (void)deleteTheOrder:(NSString *)orderid completion:(APICompletion)Completion;
+
+/**
+ *  获取充值记录
+ *
+ *  @param page       当前页
+ *  @param Completion 请求完成的回调
+ */
+- (void)getRechargeRecordWithPage:(int)page completion:(APICompletion)Completion;
+
+/**
+ *  获取提现记录
+ *
+ *  @param page       当前页
+ *  @param Completion 请求完成的回调
+ */
+- (void)getWithdrawRecordWithPage:(int)page completion:(APICompletion)Completion;
+
+/**
+ *  获取提现账户信息
+ *
+ *  @param Completion 请求完成的回调
+ */
+- (void)getWithdrawInfo:(APICompletion)Completion;
+
+/**
+ *  获取提现分享币时需要扣的税
+ *
+ *  @param amount     提现金额
+ *  @param type       提现类型
+ *  @param Completion 请求完成的回调
+ */
+- (void)getWithdrawShareCoinTaxWithAmount:(NSString *)amount type:(NSString *)type completion:(APICompletion)Completion;
+
+/**
+ *  发起提现请求
+ *
+ *  @param amount     提现金额
+ *  @param type       提现类型
+ *  @param Completion 请求完成的回调
+ */
+- (void)submitWithdrawWithAmount:(NSString *)amount type:(NSString *)type isInvoiced:(BOOL)isInvoiced completion:(APICompletion)Completion;
+
+/**
+ *  绑定银行卡
+ *
+ *  @param bankName     开户银行
+ *  @param bankAccount  开户账号
+ *  @param bankPerson   开户名
+ *  @param bankProvince 开户地/省
+ *  @param bankCity     开户地/市
+ *  @param bankArea     开户地/区
+ *  @param Completion 请求完成的回调
+ */
+- (void)bindingCardWithBankName:(NSString *)bankName bankAccount:(NSString *)bankAccount bankPerson:(NSString *)bankPerson bankProvince:(NSString *)bankProvince bankCity:(NSString *)bankCity bankArea:(NSString *)bankArea completion:(APICompletion)Completion;
+
+/**
+ *  获取所有省份
+ *
+ *  @param Completion 请求完成的回调
+ */
+- (void)getAllProvince:(APICompletion)Completion;
+
+/**
+ *  获取省份下的所有城市
+ *
+ *  @param provinceId 省id
+ *  @param Completion 请求完成的回调
+ */
+- (void)getAllCityWithProvinceId:(NSString *)provinceId completion:(APICompletion)Completion;
+
+/**
+ *  获取城市下的所有区域
+ *
+ *  @param cityId     城市id
+ *  @param Completion 请求完成的回调
+ */
+- (void)getAllRegionWithCityId:(NSString *)cityId completion:(APICompletion)Completion;
+
+/**
+ *  意见反馈
+ *
+ *  @param message    反馈的信息
+ *  @param Completion 请求完成的回调
+ */
+- (void)feedBackWithMessage:(NSString *)message completion:(APICompletion)Completion;
+
+/**
+ *  获取商家类别
+ *
+ *  @param parentId   父级id
+ *  @param Completion 请求完成的回调
+ */
+- (void)getShopTypeWithParentId:(NSString *)parentId completion:(APICompletion)Completion;
+
+- (void)getAPI:(NSString *)api pag:(int)pag completion:(APICompletion)Completion;
+
+- (void)getAPI:(NSString *)api ChildID:(NSString *)strChildID childType:(NSString *)strChildType  completion:(APICompletion)Completion;
+
+- (void)getAPI:(NSString *)api money:(NSString *)payMoney payType:(NSString *)payType   completion:(APICompletion)Completion;
+
+- (void)getAPI1:(NSString *)api pag:(int)pag completion:(APICompletion)Completion;
+
+//收益转换
+- (void)getAPI:(NSString *)api shareScore:(NSString *)share businessScore:(NSString *)business  completion:(APICompletion)Completion;
+
+/**
+ *  服务器检测版本更新
+ *
+ *  @param api        url地址
+ *  @param Completion 请求完成的回调
+ */
+- (void)checkAPI:(NSString *)api completion:(APICompletion)Completion;
+
+/**
+ *  object转json
+ */
+- (NSString *)objectToJson:(id)object;
+
+/**
+ *  json转object
+ */
+- (id)jsonToObject:(NSString *)json;
+
++ (void)hudWithText:(NSString *)text;
++ (void)hudWithText:(NSString *)text atView:(UIView *)view;
+
+//本地保存和读取,移除
+//获取当前的时间戳.毫秒数
+- (int)currentTime;
+- (id)getLocalData:(NSString * )key;
+- (void)saveLocalData:(NSString *)key value:(id)value;
+- (void)removeLocalData:(NSString *) key;
+
+
+- (NSString *)notRounding:(NSString *)price1 afterPoint:(int)position;
+
+@end

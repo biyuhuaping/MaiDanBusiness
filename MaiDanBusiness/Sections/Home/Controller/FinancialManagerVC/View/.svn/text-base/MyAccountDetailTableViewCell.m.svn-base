@@ -1,0 +1,125 @@
+//
+//  MyAccountDetailTableViewCell.m
+//  MaiDan
+//
+//  Created by 潇哥 on 16/7/30.
+//  Copyright © 2016年 feng. All rights reserved.
+//
+
+#import "MyAccountDetailTableViewCell.h"
+
+@interface MyAccountDetailTableViewCell ()
+
+@property (nonatomic, strong) UILabel *changeValue;
+@property (nonatomic, strong) UILabel *date;
+@property (nonatomic, strong) UILabel *source;
+@property (nonatomic, strong) UILabel *balance;
+
+@end
+
+@implementation MyAccountDetailTableViewCell
+
+- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
+    if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
+        [self initUI];
+    }
+    return self;
+}
+
+- (void)initUI {
+    
+    UILabel *changeValue = [UILabel new];
+    changeValue.font = FONT_WITH_SIZE(18);
+    changeValue.textColor = kTextColor1;
+    [self.contentView addSubview:changeValue];
+    self.changeValue = changeValue;
+    
+    [changeValue mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.top.equalTo(@15);
+    }];
+    
+    UILabel *date = [UILabel new];
+    date.font = FONT_WITH_SIZE(12);
+    date.textColor = kTextColor3;
+    [self.contentView addSubview:date];
+    self.date = date;
+    
+    [date mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(@15);
+        make.right.equalTo(@-15);
+    }];
+    
+    UILabel *source = [UILabel new];
+    source.font = FONT_WITH_SIZE(14);
+    source.textColor = kTextColor2;
+    [self.contentView addSubview:source];
+    self.source = source;
+    
+    [source mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(changeValue.mas_left);
+        make.bottom.equalTo(@-15);
+    }];
+    
+    UILabel *balance = [UILabel new];
+    balance.font = FONT_WITH_SIZE(15);
+    balance.textColor = kTextColor3;
+    [self.contentView addSubview:balance];
+    self.balance = balance;
+    
+    [balance mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(date.mas_right);
+        make.bottom.equalTo(source.mas_bottom);
+    }];
+    
+    UIView *separator = [UIView new];
+    separator.backgroundColor = kBackgroundColor;
+    [self.contentView addSubview:separator];
+    
+    [separator mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.bottom.right.equalTo(self.contentView);
+        make.height.equalTo(@1);
+    }];
+}
+
+- (void)configCellWithDict:(NSDictionary *)dict type:(MyAccountDetailType)type {
+    
+    if (type == MyAccountDetailTypeRecharge) {
+        
+        NSString *amount;
+        amount = ([dict[@"total_fee"] integerValue] > 0 ? dict[@"total_fee"] : @"0");
+        self.changeValue.text = amount;
+        self.date.text = dict[@"createTime"];
+        NSString *payType;
+        if ([dict[@"pay_type"] integerValue] == 3) {
+            payType = @"支付宝";
+        } else if ([dict[@"pay_type"] integerValue] == 4) {
+            payType = @"微信";
+        }
+        self.balance.text = [NSString stringWithFormat:@"%@支付%@元",payType,amount];
+        [self.changeValue mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(@15);
+            make.centerY.equalTo(self.contentView);
+        }];
+    } else if (type == MyAccountDetailTypeWithdraw) {
+        self.changeValue.text = [NSString stringWithFormat:@"-%@",dict[@"cashWithdrawal"]];
+        self.changeValue.textColor = kThemeColor;
+        
+        self.date.text = dict[@"createTime"];
+        self.source.text = [NSString stringWithFormat:@"提现账户%@",dict[@"bankAccount"]];
+        NSString *status;
+        if ([dict[@"isPay"] integerValue]) {
+            status = @"已完成";
+        } else {
+            status = @"处理中";
+        }
+        self.balance.text = status;
+    }
+}
+
+- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
+    [super setSelected:selected animated:animated];
+
+    // Configure the view for the selected state
+}
+
+@end

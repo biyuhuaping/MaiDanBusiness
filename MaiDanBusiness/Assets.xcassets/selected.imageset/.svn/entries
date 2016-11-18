@@ -1,0 +1,67 @@
+8
+
+dir
+10917
+svn://yxs@192.168.11.191/trunk/IOS/%E8%84%89%E5%8D%95/MaiDanSH/MaiDanSH/Assets.xcassets/selected.imageset
+svn://yxs@192.168.11.191
+
+
+
+2016-10-22T10:08:36.597715Z
+10917
+yxs
+
+
+svn:special svn:externals svn:needs-lock
+
+Contents.json
+file
+
+
+
+
+2016-10-22T08:43:33.000000Z
+bc3f18a88074122e8bf835ca3ef547b6
+2016-10-22T10:08:36.597715Z
+10917
+yxs
+
+selected@2x.png
+file
+
+
+
+
+2016-10-22T08:43:33.000000Z
+78fa423d24c683088b5af8459b6b9dcc
+2016-10-22T10:08:36.597715Z
+10917
+yxs
+has-props
+
+selected@3x.png
+file
+
+
+
+
+2016-10-22T08:43:33.000000Z
+af71a544446954599e839e1c1f8f2271
+2016-10-22T10:08:36.597715Z
+10917
+yxs
+has-props
+
+selected.png
+file
+
+
+
+
+2016-10-22T08:43:33.000000Z
+81b56576cf060eec09c512df2bd395bb
+2016-10-22T10:08:36.597715Z
+10917
+yxs
+has-props
+

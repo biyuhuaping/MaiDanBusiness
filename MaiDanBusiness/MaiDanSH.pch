@@ -1,0 +1,30 @@
+//
+//  DaJiaZhuanSH.pch
+//  DaJiaZhuanSH
+//
+//  Created by feng on 15/10/8.
+//  Copyright © 2015年 feng. All rights reserved.
+//
+
+#define MaiDanSH_pch
+#ifdef __OBJC__
+// Include any system framework and library headers here that should be included in all compilation units.
+// You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
+
+#import "XGCategoryDefines.h"
+#import "UIViewExt.h"
+#import "API.h"
+#import "SVProgressHUD.h"
+#import "HomeMessage.h"
+
+#import "GlobalVariable.h"
+#import "AFNetworking.h"
+#import "UIImageView+WebCache.h"
+#import "XMUnit.h"
+#import "Factory.h"
+
+#import <BlocksKit+UIKit.h>
+#import <Masonry.h>
+#import <MJExtension/MJExtension.h>
+
+#endif 

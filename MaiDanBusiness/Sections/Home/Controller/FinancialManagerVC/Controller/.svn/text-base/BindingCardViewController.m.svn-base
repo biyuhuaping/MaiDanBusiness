@@ -1,0 +1,102 @@
+//
+//  BindingCardViewController.m
+//  MaiDanSH
+//
+//  Created by lin on 16/10/21.
+//  Copyright © 2016年 feng. All rights reserved.
+//
+
+#import "BindingCardViewController.h"
+#import "MDProvinceViewController.h"
+
+@interface BindingCardViewController () <UITextFieldDelegate>
+
+@property (weak, nonatomic) IBOutlet UITextField *bankNameField;
+@property (weak, nonatomic) IBOutlet UITextField *bankNumField;
+@property (weak, nonatomic) IBOutlet UITextField *usernameField;
+@property (weak, nonatomic) IBOutlet UITextField *provinceField;
+@property (weak, nonatomic) IBOutlet UITextField *cityField;
+@property (weak, nonatomic) IBOutlet UITextField *regionField;
+@end
+
+@implementation BindingCardViewController
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"chengse64"] forBarMetrics:UIBarMetricsDefault];
+}
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    
+    self.title = @"绑定银行卡";
+    self.view.backgroundColor = kBackgroundColor;
+}
+
+- (void)requestBindingCard {
+    
+    [[API shareAPI] bindingCardWithBankName:self.bankNameField.text bankAccount:self.bankNumField.text bankPerson:self.usernameField.text bankProvince:self.provinceField.text bankCity:self.cityField.text bankArea:self.regionField.text completion:^(id responseData) {
+        if ([responseData[@"json_code"] isEqualToString:@"1000"]) {
+            BOOL success = [responseData[@"json_val"] boolValue];
+            if (success) {
+                [SVProgressHUD showSuccessWithStatus:@"绑定成功！"];
+            } else {
+                [SVProgressHUD showErrorWithStatus:@"绑定失败"];
+            }
+        } else {
+            [SVProgressHUD showErrorWithStatus:responseData[@"json_error"]];
+        }
+    }];
+}
+
+#pragma mark - <UITextFieldDelegate>
+- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
+    
+    MDProvinceViewController *provinceVC = [MDProvinceViewController new];
+    [self.navigationController pushViewController:provinceVC animated:YES];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(chooseAddress:) name:@"kSelectAddress" object:nil];
+    
+    return NO;
+}
+
+- (void)chooseAddress:(NSNotification *)notification {
+    NSLog(@"%@",notification);
+    self.provinceField.text = notification.userInfo[@"province"];
+    self.cityField.text = notification.userInfo[@"city"];
+    self.regionField.text = notification.userInfo[@"region"];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+- (IBAction)bindingBtnClick {
+    
+    if (!self.bankNameField.text.length) {
+        [SVProgressHUD showErrorWithStatus:@"开户银行不能为空！"];
+        return;
+    }
+    
+    if (!self.bankNumField.text.length) {
+        [SVProgressHUD showErrorWithStatus:@"开户账号不能为空！"];
+        return;
+    }
+    
+    if (!self.usernameField.text.length) {
+        [SVProgressHUD showErrorWithStatus:@"开户名不能为空！"];
+        return;
+    }
+    
+    
+    if (!self.provinceField.text.length) {
+        [SVProgressHUD showErrorWithStatus:@"开户地不能为空！"];
+        return;
+    }
+    
+    [self requestBindingCard];
+}
+
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+@end

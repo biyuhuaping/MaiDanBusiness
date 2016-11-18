@@ -1,0 +1,40 @@
+8
+
+dir
+10917
+svn://yxs@192.168.11.191/trunk/IOS/%E8%84%89%E5%8D%95/MaiDanSH/MaiDanSH/Sections/Home/Controller/FinancialManagerVC/View
+svn://yxs@192.168.11.191
+
+
+
+2016-10-22T10:08:36.597715Z
+10917
+yxs
+
+
+svn:special svn:externals svn:needs-lock
+
+MyAccountDetailTableViewCell.m
+file
+
+
+
+
+2016-10-20T09:16:36.000000Z
+359d454e10882129ad967f5cd4d9ccf1
+2016-10-22T10:08:36.597715Z
+10917
+yxs
+
+MyAccountDetailTableViewCell.h
+file
+
+
+
+
+2016-10-20T08:24:45.000000Z
+9feedb947838942b39a2acd2514ac02e
+2016-10-22T10:08:36.597715Z
+10917
+yxs
+

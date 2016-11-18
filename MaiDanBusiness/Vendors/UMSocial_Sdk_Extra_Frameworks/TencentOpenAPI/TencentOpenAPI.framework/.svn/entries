@@ -1,0 +1,44 @@
+8
+
+dir
+10683
+svn://yxs@192.168.11.191/trunk/IOS/%E8%84%89%E5%8D%95/MaiDanSH/MaiDanSH/Vendors/UMSocial_Sdk_Extra_Frameworks/TencentOpenAPI/TencentOpenAPI.framework
+svn://yxs@192.168.11.191
+
+
+
+2016-06-27T02:44:10.718510Z
+7456
+suxr
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+3eea504f-5454-164e-a0b6-d2b966550c07
+
+Headers
+dir
+
+TencentOpenAPI
+file
+
+
+
+
+2016-07-05T02:07:17.000000Z
+26934e440e355df0437398208ff3ea0d
+2016-06-27T02:44:10.718510Z
+7456
+suxr
+has-props
+

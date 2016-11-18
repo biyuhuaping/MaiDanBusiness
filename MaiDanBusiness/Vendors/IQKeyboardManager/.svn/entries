@@ -1,0 +1,83 @@
+8
+
+dir
+10917
+svn://yxs@192.168.11.191/trunk/IOS/%E8%84%89%E5%8D%95/MaiDanSH/MaiDanSH/Vendors/IQKeyboardManager
+svn://yxs@192.168.11.191
+
+
+
+2016-10-22T10:08:36.597715Z
+10917
+yxs
+
+
+svn:special svn:externals svn:needs-lock
+
+IQKeyboardManager.m
+file
+
+
+
+
+2016-10-18T04:24:36.000000Z
+7d97eb96f227663ed5e1bd777302fcac
+2016-10-22T10:08:36.597715Z
+10917
+yxs
+has-props
+
+Categories
+dir
+
+IQKeyboardReturnKeyHandler.h
+file
+
+
+
+
+2016-10-18T04:24:36.000000Z
+8cc115093a48f7992cf47e4aafc0e26d
+2016-10-22T10:08:36.597715Z
+10917
+yxs
+has-props
+
+IQTextView
+dir
+
+Resources
+dir
+
+IQKeyboardManager.h
+file
+
+
+
+
+2016-10-18T04:24:36.000000Z
+2fd6d3086c016b49a10ee40451f580e0
+2016-10-22T10:08:36.597715Z
+10917
+yxs
+has-props
+
+Constants
+dir
+
+IQKeyboardReturnKeyHandler.m
+file
+
+
+
+
+2016-10-18T04:24:36.000000Z
+2e4a424db30c6d5207fac5593f50e28b
+2016-10-22T10:08:36.597715Z
+10917
+yxs
+has-props
+
+IQToolbar
+dir
+

@@ -1,0 +1,61 @@
+//
+//  ShopInfomationViewController.m
+//  MaiDanSH
+//
+//  Created by lin on 16/9/26.
+//  Copyright © 2016年 feng. All rights reserved.
+//
+
+#import "ShopInfomationViewController.h"
+
+@interface ShopInfomationViewController ()
+
+@property (nonatomic, strong) UITableView *tableView;
+@property (nonatomic, strong) NSArray *titleArray;
+
+@end
+
+@implementation ShopInfomationViewController
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    
+    self.title = @"商户信息";
+    
+    self.titleArray = @[@[@"登录名",@"邀请码",@"消费利润"],
+                        @[@"商家名称",@"商家类别"],
+                        @[@"联系人",@"手机",@"电话",@"QQ号码",@"邮箱",@"省/市/区",@"详细地址"],
+                        @[@"人均消费",@"消费多少",@"赠送多少",@"活动说明",@"使用说明",@"优惠起始",@"优惠结束"],
+                        @[@"营业时间"]];
+}
+
+
+#pragma mark - TableView delegate
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return 1;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return 44.0f;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+#pragma mark - TableView dataSource
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return 1;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:[NSString stringWithFormat:@"%zd-%zd",indexPath.section,indexPath.row]];
+    return cell;
+}
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+@end
