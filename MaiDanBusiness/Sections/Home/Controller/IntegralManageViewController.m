@@ -217,6 +217,7 @@
             
         }else{
 //            imageV.image = [UIImage imageNamed:@"dingdan_jf"];
+            imageV.image = nil;
             lbl5.hidden = YES;
         }
 

@@ -55,6 +55,10 @@
     return [[[self class] alloc] initWithTitle:title placeholder:placeholder required:required];
 }
 
+- (BOOL)resignFirstResponder {
+    return [self.textField resignFirstResponder];
+}
+
 #pragma mark - setup UI
 
 - (void)setup {

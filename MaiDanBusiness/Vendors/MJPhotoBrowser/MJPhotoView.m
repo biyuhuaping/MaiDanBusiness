@@ -249,7 +249,7 @@
         [self performSelector:@selector(reset) withObject:nil afterDelay:duration];
     }
     
-    [UIView animateWithDuration:duration + 0.1 animations:^{
+//    [UIView animateWithDuration:duration + 0.1 animations:^{
         _imageView.frame = [_photo.srcImageView convertRect:_photo.srcImageView.bounds toView:nil];
         
         // gif图片仅显示第0张
@@ -261,7 +261,7 @@
         if ([self.photoViewDelegate respondsToSelector:@selector(photoViewSingleTap:)]) {
             [self.photoViewDelegate photoViewSingleTap:self];
         }
-    } completion:^(BOOL finished) {
+//    } completion:^(BOOL finished) {
         // 设置底部的小图片
         _photo.srcImageView.image = _photo.placeholder;
         
@@ -269,7 +269,7 @@
         if ([self.photoViewDelegate respondsToSelector:@selector(photoViewDidEndZoom:)]) {
             [self.photoViewDelegate photoViewDidEndZoom:self];
         }
-    }];
+//    }];
 }
 
 - (void)reset

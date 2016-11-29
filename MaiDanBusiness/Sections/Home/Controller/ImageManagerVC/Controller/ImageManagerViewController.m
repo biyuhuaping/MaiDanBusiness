@@ -12,6 +12,8 @@
 #import <AVFoundation/AVFoundation.h>
 #import <AssetsLibrary/AssetsLibrary.h>
 
+//#import <MJPhoto.h>
+//#import <MJPhotoBrowser.h>
 #import "MJPhoto.h"
 #import "MJPhotoBrowser.h"
 
@@ -345,16 +347,16 @@
                         
                         //1.封装图片数据
                         NSMutableArray *photos = [NSMutableArray arrayWithCapacity:1];
-                        for (int i = 0; i < self.imageArray.count; i++) {
-                            NSString *url = self.imageArray[i];
+//                        for (int i = 0; i < self.imageArray.count; i++) {
+                            NSString *url = self.imageArray[indexPath.row];
                             MJPhoto *photo = [[MJPhoto alloc] init];
                             photo.url = [NSURL URLWithString:url]; // 图片路径
                             [photos addObject:photo];
-                        }
+//                        }
                         
                         // 2.显示相册
                         MJPhotoBrowser *browser = [[MJPhotoBrowser alloc] init];
-                        browser.currentPhotoIndex = indexPath.row; // 弹出相册时显示的第一张图片是？
+//                        browser.currentPhotoIndex = indexPath.row; // 弹出相册时显示的第一张图片是？
                         browser.photos = photos; // 设置所有的图片
                         [browser show];
                     }];

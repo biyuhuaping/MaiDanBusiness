@@ -55,9 +55,9 @@
 /** 优惠结束 */
 @property (nonatomic, copy) NSString *useEndTime;
 /** 营业开始时间 */
-@property (nonatomic, copy) NSString *startTime;
+@property (nonatomic, copy) NSString *openStartTime;
 /** 营业结束时间 */
-@property (nonatomic, copy) NSString *endTime;
+@property (nonatomic, copy) NSString *endStartTime;
 
 
 @end

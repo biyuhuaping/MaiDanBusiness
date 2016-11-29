@@ -45,10 +45,6 @@
 @property (nonatomic, weak) MDShopInfoInputView *addressView;
 /* 人均/单均消费 */
 @property (nonatomic, weak) MDShopInfoInputView *perFeeView;
-/* 消费多少 */
-@property (nonatomic, weak) MDShopInfoInputView *xiaofeiView;
-/* 赠送多少 */
-@property (nonatomic, weak) MDShopInfoInputView *zsScoreView;
 /* 活动说明 */
 @property (nonatomic, weak) MDShopInfoInputView *memoView;
 /* 使用说明 */
@@ -141,8 +137,6 @@
     } else {
         [parameters setValue:@"2" forKey:@"perFeeType"];
     }
-    [parameters setValue:self.xiaofeiView.text forKey:@"xiaofei"];
-    [parameters setValue:self.zsScoreView.text forKey:@"zs_score"];
     [parameters setValue:self.infoModel.province forKey:@"provinceId"];
     [parameters setValue:self.infoModel.city forKey:@"cityId"];
     [parameters setValue:self.infoModel.region forKey:@"regionId"];
@@ -243,19 +237,9 @@
         make.top.equalTo(self.addressView.mas_bottom).offset(10);
     }];
     
-    [self.xiaofeiView mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.memoView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.height.equalTo(self.perFeeView);
         make.top.equalTo(self.perFeeView.mas_bottom).offset(1);
-    }];
-    
-    [self.zsScoreView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.right.height.equalTo(self.xiaofeiView);
-        make.top.equalTo(self.xiaofeiView.mas_bottom).offset(1);
-    }];
-    
-    [self.memoView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.right.height.equalTo(self.xiaofeiView);
-        make.top.equalTo(self.xiaofeiView.mas_bottom).offset(1);
     }];
     
     [self.contentView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -305,12 +289,12 @@
     self.provinceView.text = [NSString stringWithFormat:@"%@%@%@",self.infoModel.province,self.infoModel.city,self.infoModel.region];
     self.addressView.text = self.infoModel.address;
     self.perFeeView.text = self.infoModel.perFee;
-    self.xiaofeiView.text = self.infoModel.xiaofei;
-    self.zsScoreView.text = self.infoModel.zs_score;
     self.memoView.text = self.infoModel.memo;
     self.contentView.text = self.infoModel.content;
     self.useStartView.text = self.infoModel.useStartTime;
     self.useEndView.text = self.infoModel.useEndTime;
+    self.businessHoursView.startTime = self.infoModel.openStartTime;
+    self.businessHoursView.endTime = self.infoModel.endStartTime;
 }
 
 #pragma mark - method response
@@ -343,7 +327,9 @@
         [self.view endEditing:YES];
     } else {
         
+        
         MDShopInfoInputView *inputView = (MDShopInfoInputView *)view;
+        
         if ([inputView isEqual:self.shopTypeView]) {
             
             // 选择商户类别
@@ -353,7 +339,8 @@
                 self.typeId = typeId;
             };
             [self.navigationController pushViewController:typeVC animated:YES];
-            [self.view endEditing:YES];
+//            [self.view endEditing:YES];
+            [inputView resignFirstResponder];
         } else if ([inputView isEqual:self.useStartView]) {
             
             // 选择优惠起始时间
@@ -403,16 +390,6 @@
         } else {
             [SVProgressHUD showErrorWithStatus:@"单均消费不能为空！"];
         }
-        return;
-    }
-    
-    if (!self.xiaofeiView.text.length) {
-        [SVProgressHUD showErrorWithStatus:@"消费多少不能为空！"];
-        return;
-    }
-    
-    if (!self.zsScoreView.text.length) {
-        [SVProgressHUD showErrorWithStatus:@"赠送多少不能为空！"];
         return;
     }
     
@@ -560,26 +537,6 @@
         _perFeeView = perFeeView;
     }
     return _perFeeView;
-}
-
-- (MDShopInfoInputView *)xiaofeiView {
-    if (!_xiaofeiView) {
-        MDShopInfoInputView *xiaofeiView = [MDShopInfoInputView shopInfoInputViewWithTitle:@"消费多少" placeholder:@"请填写消费金额" required:YES];
-        xiaofeiView.keyboardType = UIKeyboardTypeDecimalPad;
-        [self.scrollView addSubview:xiaofeiView];
-        _xiaofeiView = xiaofeiView;
-    }
-    return _xiaofeiView;
-}
-
-- (MDShopInfoInputView *)zsScoreView {
-    if (!_zsScoreView) {
-        MDShopInfoInputView *zsScoreView = [MDShopInfoInputView shopInfoInputViewWithTitle:@"赠送多少" placeholder:@"请填写赠送金额" required:YES];
-        zsScoreView.keyboardType = UIKeyboardTypeDecimalPad;
-        [self.scrollView addSubview:zsScoreView];
-        _zsScoreView = zsScoreView;
-    }
-    return _zsScoreView;
 }
 
 - (MDShopInfoInputView *)memoView {

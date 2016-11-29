@@ -81,9 +81,9 @@
         [SVProgressHUD dismiss];
         if ([responseData[@"json_code"] isEqualToString:@"1000"]) {
             NSDictionary *info = responseData[@"json_val"][@"sellerfinance"];
-            weakSelf.banlanceValue.text = info[@"score"];
-            weakSelf.incomeView.income = info[@"businessScore"];
-            weakSelf.shareCoinView.income = info[@"shareScore"];
+            weakSelf.banlanceValue.text = [NSString stringWithFormat:@"%.2f",[info[@"score"] floatValue]];
+            weakSelf.incomeView.income = [NSString stringWithFormat:@"%.2f",[info[@"businessScore"] floatValue]];
+            weakSelf.shareCoinView.income = [NSString stringWithFormat:@"%.2f",[info[@"shareScore"] floatValue]];
         }
     }];
 }
@@ -124,7 +124,8 @@
             BOOL success = [responseData[@"json_val"] boolValue];
             if (success) {
                 [SVProgressHUD showSuccessWithStatus:@"提交成功！"];
-                [weakSelf requestWithdrawInfo];
+//                [weakSelf requestWithdrawInfo];
+                [weakSelf.navigationController popToRootViewControllerAnimated:YES];
             } else {
                 [SVProgressHUD showErrorWithStatus:@"提交失败"];
             }

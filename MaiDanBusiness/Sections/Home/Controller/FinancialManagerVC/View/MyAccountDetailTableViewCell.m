@@ -126,6 +126,11 @@
             make.left.equalTo(@15);
             make.centerY.equalTo(self.contentView);
         }];
+        [self.date mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(@15);
+            make.right.equalTo(@-15);
+        }];
+        
     } else if (type == MyAccountDetailTypeWithdraw) {
         
         self.changeValue.text = [NSString stringWithFormat:@"-%@",dict[@"cashWithdrawal"]];
@@ -143,15 +148,16 @@
         NSMutableString *sourceText = [NSMutableString string];
         if ([dict[@"code"] boolValue]) {
             [sourceText appendString:@"分享币"];
+            
+            if ([dict[@"isInvoiced"] boolValue]) {
+                [sourceText appendString:@"（提供发票）"];
+            } else {
+                [sourceText appendString:@"（不提供发票）"];
+            }
         } else {
             [sourceText appendString:@"营业收入"];
         }
         
-        if ([dict[@"isInvoiced"] boolValue]) {
-            [sourceText appendString:@"（提供发票）"];
-        } else {
-            [sourceText appendString:@"（不提供发票）"];
-        }
         self.source.text = sourceText;
     
         self.statusImage.hidden = NO;
