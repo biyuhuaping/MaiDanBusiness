@@ -72,6 +72,8 @@ static BOOL Check = NO;
     {
         [self requestDataFromNet];
     }
+    
+    NSLog(@"测试分支!!!");
 }
 
 
