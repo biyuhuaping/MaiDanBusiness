@@ -11,12 +11,15 @@
 
 @interface BindingCardViewController () <UITextFieldDelegate>
 
+@property (weak, nonatomic) IBOutlet UILabel *msgLabel;
 @property (weak, nonatomic) IBOutlet UITextField *bankNameField;
 @property (weak, nonatomic) IBOutlet UITextField *bankNumField;
 @property (weak, nonatomic) IBOutlet UITextField *usernameField;
 @property (weak, nonatomic) IBOutlet UITextField *provinceField;
 @property (weak, nonatomic) IBOutlet UITextField *cityField;
 @property (weak, nonatomic) IBOutlet UITextField *regionField;
+@property (weak, nonatomic) IBOutlet UIButton *saveBtn;
+
 @end
 
 @implementation BindingCardViewController
@@ -44,7 +47,23 @@
     [[API shareAPI] getWithdrawInfo:^(id responseData) {
         NSLog(@"responseData = %@",responseData);
         if ([responseData[@"json_code"] isEqualToString:@"1000"]) {
+            
             NSDictionary *info = responseData[@"json_val"][@"sellerfinance"];
+            if ([info[@"isCheck"] integerValue] == 0) {
+                self.msgLabel.text = @"审核不通过,请修改信息重新绑定!";
+                self.saveBtn.hidden = NO;
+                self.saveBtn.enabled = YES;
+                self.saveBtn.backgroundColor = kThemeColor;
+            } else if ([info[@"isCheck"] integerValue] == 1) {
+                self.msgLabel.text = @"";
+                self.saveBtn.hidden = YES;
+            } else {
+                self.msgLabel.text = @"等待审核";
+                self.saveBtn.hidden = NO;
+                self.saveBtn.enabled = NO;
+                self.saveBtn.backgroundColor = RGBCOLOR(204, 204, 204);
+            }
+            
             weakSelf.bankNameField.text = info[@"bankName"];
             weakSelf.bankNumField.text = info[@"bankAccount"];
             weakSelf.usernameField.text = info[@"bankPerson"];
@@ -61,7 +80,8 @@
         if ([responseData[@"json_code"] isEqualToString:@"1000"]) {
             BOOL success = [responseData[@"json_val"] boolValue];
             if (success) {
-                [SVProgressHUD showSuccessWithStatus:@"绑定成功！"];
+                [SVProgressHUD showSuccessWithStatus:@"绑定已提交，请等待审核！"];
+                [self.navigationController popViewControllerAnimated:YES];
             } else {
                 [SVProgressHUD showErrorWithStatus:@"绑定失败"];
             }
@@ -72,6 +92,7 @@
 }
 
 #pragma mark - <UITextFieldDelegate>
+
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
     
     MDProvinceViewController *provinceVC = [MDProvinceViewController new];
@@ -106,7 +127,6 @@
         [SVProgressHUD showErrorWithStatus:@"开户名不能为空！"];
         return;
     }
-    
     
     if (!self.provinceField.text.length) {
         [SVProgressHUD showErrorWithStatus:@"开户地不能为空！"];

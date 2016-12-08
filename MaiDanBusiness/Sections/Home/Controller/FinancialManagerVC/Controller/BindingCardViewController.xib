@@ -1,8 +1,12 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10116" systemVersion="15G1004" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2555" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="BindingCardViewController">
@@ -10,19 +14,21 @@
                 <outlet property="bankNameField" destination="kks-hz-GKP" id="YPI-8Q-HpF"/>
                 <outlet property="bankNumField" destination="UDi-kH-8sE" id="dmv-F2-3Ep"/>
                 <outlet property="cityField" destination="EI3-i7-bmM" id="lid-aL-99q"/>
+                <outlet property="msgLabel" destination="osn-bl-FIj" id="a4Y-Mi-6yq"/>
                 <outlet property="provinceField" destination="cKE-k7-PFm" id="m4l-LN-v1J"/>
                 <outlet property="regionField" destination="Gx4-cH-USa" id="R1d-Zl-oZw"/>
+                <outlet property="saveBtn" destination="xpG-t0-E87" id="kGU-SS-vDZ"/>
                 <outlet property="usernameField" destination="wjy-qq-NUL" id="QY0-ha-JOb"/>
                 <outlet property="view" destination="iN0-l3-epB" id="DI4-Hc-UoT"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="iN0-l3-epB">
-            <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AIa-Ym-7WU">
-                    <rect key="frame" x="15" y="80" width="570" height="50"/>
+                    <rect key="frame" x="15" y="74" width="345" height="50"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0eo-Yw-1Rs">
                             <rect key="frame" x="0.0" y="14" width="70" height="21"/>
@@ -32,14 +38,14 @@
                             <attributedString key="attributedText">
                                 <fragment content="开户银行">
                                     <attributes>
-                                        <color key="NSColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="NSColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <font key="NSFont" size="15" name="PingFangSC-Regular"/>
                                         <paragraphStyle key="NSParagraphStyle" alignment="right" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                     </attributes>
                                 </fragment>
                                 <fragment content="*">
                                     <attributes>
-                                        <color key="NSColor" red="0.90980392156862744" green="0.3411764705882353" blue="0.2196078431372549" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="NSColor" red="0.90980392156862744" green="0.3411764705882353" blue="0.2196078431372549" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <font key="NSFont" size="15" name="HelveticaNeue"/>
                                         <paragraphStyle key="NSParagraphStyle" alignment="right" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                     </attributes>
@@ -48,15 +54,15 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Hzd-DP-EaC">
-                            <rect key="frame" x="80" y="0.0" width="490" height="50"/>
+                            <rect key="frame" x="80" y="0.0" width="265" height="50"/>
                             <subviews>
                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="kks-hz-GKP">
-                                    <rect key="frame" x="10" y="5" width="470" height="40"/>
+                                    <rect key="frame" x="10" y="5" width="245" height="40"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <textInputTraits key="textInputTraits"/>
                                 </textField>
                             </subviews>
-                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
                                 <constraint firstItem="kks-hz-GKP" firstAttribute="leading" secondItem="Hzd-DP-EaC" secondAttribute="leading" constant="10" id="4ai-20-YQy"/>
                                 <constraint firstAttribute="trailing" secondItem="kks-hz-GKP" secondAttribute="trailing" constant="10" id="noE-wP-WGk"/>
@@ -71,7 +77,7 @@
                             </userDefinedRuntimeAttributes>
                         </view>
                     </subviews>
-                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstItem="Hzd-DP-EaC" firstAttribute="top" secondItem="AIa-Ym-7WU" secondAttribute="top" id="8z5-HJ-qxT"/>
                         <constraint firstItem="Hzd-DP-EaC" firstAttribute="leading" secondItem="0eo-Yw-1Rs" secondAttribute="trailing" constant="10" id="HkV-HQ-UP7"/>
@@ -83,7 +89,7 @@
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Mar-cC-cev">
-                    <rect key="frame" x="15" y="140" width="570" height="50"/>
+                    <rect key="frame" x="15" y="134" width="345" height="50"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="igs-Rh-8ws">
                             <rect key="frame" x="0.0" y="14" width="70" height="21"/>
@@ -93,14 +99,14 @@
                             <attributedString key="attributedText">
                                 <fragment content="开户账号">
                                     <attributes>
-                                        <color key="NSColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="NSColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <font key="NSFont" size="15" name="PingFangSC-Regular"/>
                                         <paragraphStyle key="NSParagraphStyle" alignment="right" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                     </attributes>
                                 </fragment>
                                 <fragment content="*">
                                     <attributes>
-                                        <color key="NSColor" red="0.90980392156862744" green="0.3411764705882353" blue="0.2196078431372549" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="NSColor" red="0.90980392156862744" green="0.3411764705882353" blue="0.2196078431372549" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <font key="NSFont" size="15" name="HelveticaNeue"/>
                                         <paragraphStyle key="NSParagraphStyle" alignment="right" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                     </attributes>
@@ -109,15 +115,15 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ebs-n9-WnD">
-                            <rect key="frame" x="80" y="0.0" width="490" height="50"/>
+                            <rect key="frame" x="80" y="0.0" width="265" height="50"/>
                             <subviews>
                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="UDi-kH-8sE">
-                                    <rect key="frame" x="10" y="5" width="470" height="40"/>
+                                    <rect key="frame" x="10" y="5" width="245" height="40"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                                 </textField>
                             </subviews>
-                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
                                 <constraint firstItem="UDi-kH-8sE" firstAttribute="leading" secondItem="ebs-n9-WnD" secondAttribute="leading" constant="10" id="5rz-x6-lN7"/>
                                 <constraint firstItem="UDi-kH-8sE" firstAttribute="top" secondItem="ebs-n9-WnD" secondAttribute="top" constant="5" id="ZjN-p4-ASq"/>
@@ -132,7 +138,7 @@
                             </userDefinedRuntimeAttributes>
                         </view>
                     </subviews>
-                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstItem="ebs-n9-WnD" firstAttribute="leading" secondItem="igs-Rh-8ws" secondAttribute="trailing" constant="10" id="87u-cu-xjJ"/>
                         <constraint firstItem="igs-Rh-8ws" firstAttribute="centerY" secondItem="Mar-cC-cev" secondAttribute="centerY" id="BDX-fJ-N7M"/>
@@ -144,7 +150,7 @@
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0Kc-WR-jVd">
-                    <rect key="frame" x="15" y="200" width="570" height="50"/>
+                    <rect key="frame" x="15" y="194" width="345" height="50"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZGz-iA-DMY">
                             <rect key="frame" x="0.0" y="14" width="70" height="21"/>
@@ -154,14 +160,14 @@
                             <attributedString key="attributedText">
                                 <fragment content="开户名">
                                     <attributes>
-                                        <color key="NSColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="NSColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <font key="NSFont" size="15" name="PingFangSC-Regular"/>
                                         <paragraphStyle key="NSParagraphStyle" alignment="right" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                     </attributes>
                                 </fragment>
                                 <fragment content="*">
                                     <attributes>
-                                        <color key="NSColor" red="0.90980392156862744" green="0.3411764705882353" blue="0.2196078431372549" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="NSColor" red="0.90980392156862744" green="0.3411764705882353" blue="0.2196078431372549" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <font key="NSFont" size="15" name="HelveticaNeue"/>
                                         <paragraphStyle key="NSParagraphStyle" alignment="right" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                     </attributes>
@@ -170,15 +176,15 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6vJ-JL-cNP">
-                            <rect key="frame" x="80" y="0.0" width="490" height="50"/>
+                            <rect key="frame" x="80" y="0.0" width="265" height="50"/>
                             <subviews>
                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="wjy-qq-NUL">
-                                    <rect key="frame" x="10" y="5" width="470" height="40"/>
+                                    <rect key="frame" x="10" y="5" width="245" height="40"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <textInputTraits key="textInputTraits"/>
                                 </textField>
                             </subviews>
-                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
                                 <constraint firstAttribute="bottom" secondItem="wjy-qq-NUL" secondAttribute="bottom" constant="5" id="FCl-En-n3i"/>
                                 <constraint firstItem="wjy-qq-NUL" firstAttribute="leading" secondItem="6vJ-JL-cNP" secondAttribute="leading" constant="10" id="QVK-LQ-D2i"/>
@@ -193,7 +199,7 @@
                             </userDefinedRuntimeAttributes>
                         </view>
                     </subviews>
-                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstItem="6vJ-JL-cNP" firstAttribute="leading" secondItem="ZGz-iA-DMY" secondAttribute="trailing" constant="10" id="Olr-SJ-bs2"/>
                         <constraint firstAttribute="height" constant="50" id="bar-Th-Wa8"/>
@@ -205,7 +211,7 @@
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="z8L-u0-Itv">
-                    <rect key="frame" x="15" y="260" width="570" height="50"/>
+                    <rect key="frame" x="15" y="254" width="345" height="50"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NHs-Y6-zSX">
                             <rect key="frame" x="0.0" y="14" width="70" height="21"/>
@@ -215,14 +221,14 @@
                             <attributedString key="attributedText">
                                 <fragment content="开户地">
                                     <attributes>
-                                        <color key="NSColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="NSColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <font key="NSFont" size="15" name="PingFangSC-Regular"/>
                                         <paragraphStyle key="NSParagraphStyle" alignment="right" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                     </attributes>
                                 </fragment>
                                 <fragment content="*">
                                     <attributes>
-                                        <color key="NSColor" red="0.90980392156862744" green="0.3411764705882353" blue="0.2196078431372549" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="NSColor" red="0.90980392156862744" green="0.3411764705882353" blue="0.2196078431372549" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <font key="NSFont" size="15" name="HelveticaNeue"/>
                                         <paragraphStyle key="NSParagraphStyle" alignment="right" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                     </attributes>
@@ -231,10 +237,10 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zQ5-3I-BvX">
-                            <rect key="frame" x="80" y="0.0" width="160" height="50"/>
+                            <rect key="frame" x="80" y="0.0" width="85" height="50"/>
                             <subviews>
                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="省" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="cKE-k7-PFm">
-                                    <rect key="frame" x="10" y="5" width="140" height="40"/>
+                                    <rect key="frame" x="10" y="5" width="65" height="40"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <textInputTraits key="textInputTraits"/>
                                     <connections>
@@ -242,7 +248,7 @@
                                     </connections>
                                 </textField>
                             </subviews>
-                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
                                 <constraint firstAttribute="trailing" secondItem="cKE-k7-PFm" secondAttribute="trailing" constant="10" id="BcO-1O-gkJ"/>
                                 <constraint firstItem="cKE-k7-PFm" firstAttribute="top" secondItem="zQ5-3I-BvX" secondAttribute="top" constant="5" id="CfD-ae-GbU"/>
@@ -257,10 +263,10 @@
                             </userDefinedRuntimeAttributes>
                         </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ncz-w3-kiK">
-                            <rect key="frame" x="410" y="0.0" width="160" height="50"/>
+                            <rect key="frame" x="260" y="0.0" width="85" height="50"/>
                             <subviews>
                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="区" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Gx4-cH-USa">
-                                    <rect key="frame" x="10" y="5" width="140" height="40"/>
+                                    <rect key="frame" x="10" y="5" width="65" height="40"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <textInputTraits key="textInputTraits"/>
                                     <connections>
@@ -268,7 +274,7 @@
                                     </connections>
                                 </textField>
                             </subviews>
-                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
                                 <constraint firstAttribute="bottom" secondItem="Gx4-cH-USa" secondAttribute="bottom" constant="5" id="7Cl-8D-tNV"/>
                                 <constraint firstItem="Gx4-cH-USa" firstAttribute="leading" secondItem="Ncz-w3-kiK" secondAttribute="leading" constant="10" id="cYk-7e-I44"/>
@@ -283,10 +289,10 @@
                             </userDefinedRuntimeAttributes>
                         </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0fx-8B-x22">
-                            <rect key="frame" x="245" y="0.0" width="160" height="50"/>
+                            <rect key="frame" x="170" y="0.0" width="85" height="50"/>
                             <subviews>
                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="市" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="EI3-i7-bmM">
-                                    <rect key="frame" x="10" y="5" width="140" height="40"/>
+                                    <rect key="frame" x="10" y="5" width="65" height="40"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <textInputTraits key="textInputTraits"/>
                                     <connections>
@@ -294,7 +300,7 @@
                                     </connections>
                                 </textField>
                             </subviews>
-                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
                                 <constraint firstItem="EI3-i7-bmM" firstAttribute="top" secondItem="0fx-8B-x22" secondAttribute="top" constant="5" id="9NW-3m-Zh2"/>
                                 <constraint firstItem="EI3-i7-bmM" firstAttribute="leading" secondItem="0fx-8B-x22" secondAttribute="leading" constant="10" id="fsn-LI-82Q"/>
@@ -309,7 +315,7 @@
                             </userDefinedRuntimeAttributes>
                         </view>
                     </subviews>
-                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstItem="0fx-8B-x22" firstAttribute="width" secondItem="zQ5-3I-BvX" secondAttribute="width" id="95c-Hd-fee"/>
                         <constraint firstItem="Ncz-w3-kiK" firstAttribute="height" secondItem="zQ5-3I-BvX" secondAttribute="height" id="Ksq-dI-Xzd"/>
@@ -329,13 +335,13 @@
                     </constraints>
                 </view>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xpG-t0-E87">
-                    <rect key="frame" x="15" y="360" width="570" height="45"/>
-                    <color key="backgroundColor" red="0.90980392160000001" green="0.34509803919999998" blue="0.22352941179999999" alpha="1" colorSpace="calibratedRGB"/>
+                    <rect key="frame" x="15" y="354" width="345" height="45"/>
+                    <color key="backgroundColor" red="0.80000000000000004" green="0.80000000000000004" blue="0.80000000000000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="45" id="fjP-E1-o4f"/>
                     </constraints>
                     <state key="normal" title="确定">
-                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </state>
                     <userDefinedRuntimeAttributes>
                         <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
@@ -347,23 +353,33 @@
                         <action selector="bindingBtnClick" destination="-1" eventType="touchUpInside" id="4Dk-sH-e9L"/>
                     </connections>
                 </button>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="osn-bl-FIj">
+                    <rect key="frame" x="0.0" y="64" width="375" height="0.0"/>
+                    <color key="backgroundColor" red="0.4823529411764706" green="0.4823529411764706" blue="0.4823529411764706" alpha="1" colorSpace="calibratedRGB"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                </label>
             </subviews>
-            <color key="backgroundColor" red="0.97254901960784312" green="0.97254901960784312" blue="0.97254901960784312" alpha="1" colorSpace="calibratedRGB"/>
+            <color key="backgroundColor" red="0.97254901960784312" green="0.97254901960784312" blue="0.97254901960784312" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="xpG-t0-E87" secondAttribute="trailing" constant="15" id="0mf-5c-5tz"/>
                 <constraint firstItem="z8L-u0-Itv" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="15" id="2ZL-yh-p39"/>
                 <constraint firstItem="z8L-u0-Itv" firstAttribute="top" secondItem="0Kc-WR-jVd" secondAttribute="bottom" constant="10" id="5aJ-wc-yDF"/>
                 <constraint firstAttribute="trailing" secondItem="AIa-Ym-7WU" secondAttribute="trailing" constant="15" id="90W-Bi-fHQ"/>
+                <constraint firstItem="osn-bl-FIj" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="64" id="Awh-FE-zFV"/>
+                <constraint firstAttribute="trailing" secondItem="osn-bl-FIj" secondAttribute="trailing" id="GvJ-8Y-bFd"/>
                 <constraint firstItem="xpG-t0-E87" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="15" id="J0y-u7-HEW"/>
                 <constraint firstItem="xpG-t0-E87" firstAttribute="top" secondItem="z8L-u0-Itv" secondAttribute="bottom" constant="50" id="XA7-cd-Uf6"/>
                 <constraint firstAttribute="trailing" secondItem="z8L-u0-Itv" secondAttribute="trailing" constant="15" id="bJu-6t-hpF"/>
                 <constraint firstItem="0Kc-WR-jVd" firstAttribute="top" secondItem="Mar-cC-cev" secondAttribute="bottom" constant="10" id="ds8-lX-v0a"/>
+                <constraint firstItem="AIa-Ym-7WU" firstAttribute="top" secondItem="osn-bl-FIj" secondAttribute="bottom" constant="10" id="iEl-Oq-lv9"/>
+                <constraint firstItem="osn-bl-FIj" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="kJc-py-5Eh"/>
                 <constraint firstItem="AIa-Ym-7WU" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="15" id="q1d-2O-D9S"/>
                 <constraint firstAttribute="trailing" secondItem="0Kc-WR-jVd" secondAttribute="trailing" constant="15" id="qaA-de-ATv"/>
                 <constraint firstAttribute="trailing" secondItem="Mar-cC-cev" secondAttribute="trailing" constant="15" id="qhQ-mc-7yW"/>
                 <constraint firstItem="0Kc-WR-jVd" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="15" id="roc-NY-N9U"/>
                 <constraint firstItem="Mar-cC-cev" firstAttribute="top" secondItem="AIa-Ym-7WU" secondAttribute="bottom" constant="10" id="tCe-NA-tQe"/>
-                <constraint firstItem="AIa-Ym-7WU" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="80" id="tqm-3c-nLG"/>
                 <constraint firstItem="Mar-cC-cev" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="15" id="tu0-wx-0AC"/>
             </constraints>
         </view>
