@@ -139,7 +139,7 @@
     
     if (self.homeVC.isAction == YES) {
         self.homeVC.isAction = NO;
-        [self.homeVC left];
+        [self.homeVC showLeft];
     }else{
         FulfillCardVC *controller = [[FulfillCardVC alloc]init];
         [self.homeVC.navigationController pushViewController:controller animated:YES];

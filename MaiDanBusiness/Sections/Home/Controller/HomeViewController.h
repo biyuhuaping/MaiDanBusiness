@@ -19,5 +19,5 @@
 
 - (void)share;
 -(void)requestDataFromNet;
-- (void)left;
+- (void)showLeft;
 @end

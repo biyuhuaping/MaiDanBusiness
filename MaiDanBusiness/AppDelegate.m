@@ -9,7 +9,6 @@
 #import "AppDelegate.h"
 #import "DEMONavigationController.h"
 #import "HomeViewController.h"
-#import "DEMOMenuViewController.h"
 #import "CLLockVC.h"
 
 //友盟

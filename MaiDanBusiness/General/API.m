@@ -486,7 +486,6 @@ NSURL *fullURLWithPath(NSString *path) {
     strUrl = [strUrl stringByAppendingFormat:@"/%@",appVersion];
     [self createRequestWithPath:strUrl];
     self.Completion = Completion;
-
 }
 
 

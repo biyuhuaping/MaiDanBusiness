@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "WXApi.h"
 #import <AlipaySDK/AlipaySDK.h>
+
 @class DEMONavigationController,DEMOMenuViewController,HomeViewController;
 @interface AppDelegate : UIResponder <UIApplicationDelegate,WXApiDelegate,UIAlertViewDelegate>
 

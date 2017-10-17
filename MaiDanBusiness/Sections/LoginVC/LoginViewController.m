@@ -11,7 +11,7 @@
 #import "HomeMessage.h"
 #import "CLLockVC.h"
 #import "HomeViewController.h"
-#import "DEMOMenuViewController.h"
+//#import "DEMOMenuViewController.h"
 
 #define TAG_BUTTON_REGISTER         0x001
 #define TAG_BUTTON_DEVICEID         0x002

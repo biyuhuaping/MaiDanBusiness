@@ -50,13 +50,12 @@
 @property (nonatomic, strong) UIWindow *myWindow;
 @property (nonatomic, strong) UIWindow *window;
 @property (nonatomic, strong) UIImageView *imageView;
-@property (strong, nonatomic) DEMOMenuViewController *menuController;
+@property (nonatomic, strong) DEMOMenuViewController *menuController;
 
 @end
 
 static BOOL Check = NO;
 @implementation HomeViewController
-@synthesize window,imageView;
 
 - (void)viewWillAppear:(BOOL)animated{
     NSString *strIsLogin = [[API shareAPI] getLocalData:G_IS_LOGIN];
@@ -81,9 +80,9 @@ static BOOL Check = NO;
     
     // Do any additional setup after loading the view.
     
-    window = [UIApplication sharedApplication].keyWindow;
+    self.window = [UIApplication sharedApplication].keyWindow;
     _myWindow = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
-    _myWindow.backgroundColor = [UIColor whiteColor];
+    _myWindow.backgroundColor = [UIColor blackColor];
     
     self.menuController = [[DEMOMenuViewController alloc] initWithStyle:UITableViewStylePlain];
     self.menuController.viewVC = self;
@@ -91,11 +90,11 @@ static BOOL Check = NO;
     [_myWindow addSubview:_menuController.view];
     
     
-    //投影
-    imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"bg_yingyin"]];
-    imageView.frame = CGRectMake(0, 0, 10, G_SCREEN_HEIGHT + 64);
-    imageView.alpha = 0;
-    [window addSubview:imageView];
+    //阴影
+    self.imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"bg_yingyin"]];
+    self.imageView.frame = CGRectMake(0, 0, 10, G_SCREEN_HEIGHT + 64);
+    self.imageView.alpha = 0;
+    [self.window addSubview:self.imageView];
     
     // Create frosted view controller
     //手势滑动
@@ -164,14 +163,10 @@ static BOOL Check = NO;
         controller.homeVC = self;
         [self presentViewController:controller animated:YES completion:nil];
     }
-    [self initUI];
-    
-    
+    [self configurationCollectionView];
 }
-- (void)initUI{
-    
-    
-    
+
+- (void)configurationCollectionView{
     UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
     _cellHegit = 240;
     flowLayout.itemSize = CGSizeMake( (self.view.frame.size.width - 2) / 3, (self.view.frame.size.height - _cellHegit *G_SCREEN_PROP - 64) / 3 );
@@ -213,20 +208,13 @@ static BOOL Check = NO;
  *  获取基本信息
  */
 - (void)requestDataFromNet {
-    
-    //
     __weak HomeViewController *weakSelf = self;
-    
-    
-    
     [[API shareAPI] getUserInfo:^(id responseData) {
-        
         weakSelf.homeMessage = [[HomeMessage alloc] init];
         [weakSelf.homeMessage setValuesForKeysWithDictionary:responseData[@"json_val"]];
         weakSelf.title = _homeMessage.shopName;
         [[API shareAPI] saveLocalData:G_HeadUrl value:_homeMessage.logo];
         [[API shareAPI] saveLocalData:G_SHOP_NAME value:_homeMessage.shopName];
-        
         
         if (Check) {
             Check = NO;
@@ -235,19 +223,11 @@ static BOOL Check = NO;
         }
         
         [weakSelf.myCollectionView reloadData];
-        
     }];
-    
-    
-    
-    
-    
-    
 }
 
+//检查更新
 - (void)requestDataFromNet1{
-    
-    
     [[API shareAPI] checkAPI:API_Check completion:^(id responseData) {
         if ([responseData[@"json_res"] isEqualToString:@"json_ok"]) {
             if ([responseData[@"json_val"][@"status"] isEqualToString:@"1"]) {
@@ -261,8 +241,8 @@ static BOOL Check = NO;
     }];
     
 }
+
 - (void)share{
-    
     NSString *shareText = @"消费满180，累计最高赠送180积分。以此类推！分享还有钱赚。";             //分享内嵌文字
     //    UIImage *shareImage = [UIImage imageNamed:@"UMS_social_demo"];          //分享内嵌图片
     UIImage *shareImage = [UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"icon80" ofType:@"png"]];
@@ -295,15 +275,9 @@ static BOOL Check = NO;
                                        delegate:self];
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
-}
 #pragma mark - Share Delegate
-
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    
     if (alertView.tag == 101) {
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
     }else if(alertView.tag == 102){
@@ -313,10 +287,13 @@ static BOOL Check = NO;
         
         [application openURL:[NSURL URLWithString:strUrl]];
     }
-    
 }
-#pragma mark - UITableViewDelegate
 
+#pragma mark - UITableViewDelegate
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
 
 
 #pragma mark - UICollectionViewDataSource
@@ -338,11 +315,9 @@ static BOOL Check = NO;
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section{
     return CGSizeMake(collectionView.size.width, _cellHegit *G_SCREEN_PROP);
-    
 }
--(UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath{
-    
-    
+
+- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath{
     if (kind == UICollectionElementKindSectionHeader){
         HeaderView *headerView =  [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"HeaderView" forIndexPath:indexPath];
         headerView.homeVC =self;
@@ -385,13 +360,11 @@ static BOOL Check = NO;
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
     if (indexPath.row == 0)      //订单扫描确认
     {
-        
         if ([UIImagePickerController isSourceTypeAvailable: UIImagePickerControllerSourceTypeCamera])
         {
             NSString *mediaType = AVMediaTypeVideo;
             AVAuthorizationStatus authStatus = [AVCaptureDevice authorizationStatusForMediaType:mediaType];
             if(authStatus == AVAuthorizationStatusRestricted || authStatus == AVAuthorizationStatusDenied){
-                
                 NSLog(@"相机权限受限");
                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示"
                                                                 message:@"抱歉，你的设备未开启相机权限！"
@@ -518,51 +491,50 @@ static BOOL Check = NO;
 - (void)handleSwipes:(UISwipeGestureRecognizer *)sender {
     _isAction = !_isAction;
     if (sender.direction == UISwipeGestureRecognizerDirectionLeft) {
-        [self left];
+        [self showLeft];
     }
     if (sender.direction == UISwipeGestureRecognizerDirectionRight) {
-        [self right];
+        [self showRight];
     }
 }
 
-#pragma mark - left
-- (void)left {
+- (void)showLeft {
     for (UIGestureRecognizer *tap in self.view.gestureRecognizers) {
         if ([tap isKindOfClass:[UITapGestureRecognizer class]]) {
             [self.view removeGestureRecognizer:tap];
         }
     }
-    [UIView animateWithDuration:0.5 animations:^{
-        window.frame = [UIScreen mainScreen].bounds;
+    [UIView animateWithDuration:0.3 animations:^{
+        self.window.frame = [UIScreen mainScreen].bounds;
         _menuController.view.frame = CGRectMake(-223, 0, 223, G_SCREEN_HEIGHT);
-        imageView.alpha = 0;
+        self.imageView.alpha = 0;
     }];
 }
 
-#pragma mark - right
-- (void)right {
+- (void)showRight {
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapView)];
     [self.view addGestureRecognizer:tap];
-    [UIView animateWithDuration:0.5 animations:^{
+    [UIView animateWithDuration:0.3 animations:^{
         _menuController.view.frame = CGRectMake(0, 0, 223, G_SCREEN_HEIGHT);
-        window.frame = CGRectMake(223, 0, G_SCREEN_WIDTH, G_SCREEN_HEIGHT);
-        [_myWindow addSubview:window];
+        self.window.frame = CGRectMake(223, 0, G_SCREEN_WIDTH, G_SCREEN_HEIGHT);
+        [_myWindow addSubview:self.window];
         [_myWindow makeKeyAndVisible];
-        imageView.alpha = 1.0;
+        self.imageView.alpha = 1.0;
     }];
 }
+
 - (void)setting {
-    
     if (_isAction == NO) {
-        _isAction = !_isAction;
-        [self right];
+        [self showRight];
     } else {
-        _isAction = !_isAction;
-        [self left];
+        [self showLeft];
     }
+    _isAction = !_isAction;
 }
+
 - (void)tapView {
     _isAction = !_isAction;
-    [self left];
+    [self showLeft];
 }
+
 @end

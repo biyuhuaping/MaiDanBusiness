@@ -850,8 +850,7 @@
 				3E4541AF1DD9B60C00E881D0 /* FeedBackViewController.xib */,
 				3E4541CB1DD9B60C00E881D0 /* FulfillCardVC.h */,
 				3E4541CC1DD9B60C00E881D0 /* FulfillCardVC.m */,
-				3E4541CD1DD9B60C00E881D0 /* HomeViewController.h */,
-				3E4541CE1DD9B60C00E881D0 /* HomeViewController.m */,
+				EF2F12991F95FC2A00D44633 /* 首页 */,
 				3E4541D81DD9B60C00E881D0 /* InputCodeViewController.h */,
 				3E4541D91DD9B60C00E881D0 /* InputCodeViewController.m */,
 				3E4541DA1DD9B60C00E881D0 /* IntegralManageViewController.h */,
@@ -1856,6 +1855,15 @@
 				B0F980838AA05312870461C6 /* Pods-MaiDanBusiness.release.xcconfig */,
 			);
 			name = Pods;
+			sourceTree = "<group>";
+		};
+		EF2F12991F95FC2A00D44633 /* 首页 */ = {
+			isa = PBXGroup;
+			children = (
+				3E4541CD1DD9B60C00E881D0 /* HomeViewController.h */,
+				3E4541CE1DD9B60C00E881D0 /* HomeViewController.m */,
+			);
+			name = "首页";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

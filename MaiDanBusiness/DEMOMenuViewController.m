@@ -46,7 +46,7 @@
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     self.viewVC.isAction = !self.viewVC.isAction;
-    [self.viewVC left];
+    [self.viewVC showLeft];
 
     if (indexPath.row == 0)//关于我们
     {
@@ -63,7 +63,6 @@
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"确认退出？" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
         [alert show];
     }
-    
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
@@ -148,13 +147,9 @@
             imageV.frame = CGRectMake(30, 40, 155, 40);
             [cell.contentView addSubview:imageV];
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
-            
         }
-        
-  
     }else{
-     cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
-        
+        cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
         if (cell == nil)
         {
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
@@ -169,8 +164,6 @@
         
         cell.textLabel.text = titles[indexPath.row];
         cell.imageView.image = [UIImage imageNamed:images[indexPath.row]];
-        
- 
     }
     return cell;
 }
