@@ -10,6 +10,7 @@
 #import "DEMOMenuViewController.h"
 #import "LoginViewController.h"
 #import "HomeViewController.h"
+
 @interface DEMONavigationController ()
 
 @property (strong, readwrite, nonatomic) DEMOMenuViewController *menuViewController;
@@ -17,16 +18,12 @@
 @end
 
 @implementation DEMONavigationController
-- (void)viewWillAppear:(BOOL)animated{
-
-}
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
 //    [self.view addGestureRecognizer:[[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panGestureRecognized:)]];
-    
 }
 
 - (void)showMenu
@@ -39,10 +36,8 @@
 
     // Present the view controller
     //
-    
-    
-   
 }
+
 - (void)showMenu1:(UIViewController *)viewVC
 {
     // Dismiss keyboard (optional)
@@ -53,8 +48,8 @@
 //    self.menuViewController.viewVC = viewVC;
     viewVC = _menuViewController.viewVC;
 }
-#pragma mark -
-#pragma mark Gesture recognizer
+
+#pragma mark - Gesture recognizer
 
 - (void)panGestureRecognized:(UIPanGestureRecognizer *)sender
 {

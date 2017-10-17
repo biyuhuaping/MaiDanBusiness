@@ -68,6 +68,7 @@
     [self.window makeKeyAndVisible];
   
     _lockBool= YES;
+    
     //进去
     self.homeVC = [[HomeViewController alloc] init];
     self.navigationController = [[DEMONavigationController alloc] initWithRootViewController:_homeVC];
@@ -86,7 +87,6 @@
   
     
     return YES;
-    
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
@@ -364,18 +364,7 @@
 
 - (void)buildSrandom
 {
-    int iCount1 = arc4random() % 5 ;
-    int iCount2 = arc4random() % 5 ;
-    int iCount3 = arc4random() % 5 ;
-    int iCount4 = arc4random() % 5 ;
-    int iCount5 = arc4random() % 5 ;
-    int iCount6 = arc4random() % 5 ;
-    int iCount7 = arc4random() % 5 ;
-    int iCount8 = arc4random() % 5 ;
-    
-    
-    NSString *strTemp = [NSString stringWithFormat:@"%d%d%d%d%d%d%d%d",iCount1,iCount2,iCount3,iCount4,iCount5,iCount6,iCount7,iCount8];
-    
+//    取值
     NSUserDefaults *config = [NSUserDefaults standardUserDefaults];
     NSString *strDeviceID = [config objectForKey:G_DEVICE_ID];
     
@@ -383,6 +372,18 @@
     {
         [[API shareAPI] saveLocalData:G_IS_LOGIN value:G_NO];
 
+        //    创建随机数
+        int iCount1 = arc4random() % 5 ;
+        int iCount2 = arc4random() % 5 ;
+        int iCount3 = arc4random() % 5 ;
+        int iCount4 = arc4random() % 5 ;
+        int iCount5 = arc4random() % 5 ;
+        int iCount6 = arc4random() % 5 ;
+        int iCount7 = arc4random() % 5 ;
+        int iCount8 = arc4random() % 5 ;
+        
+        
+        NSString *strTemp = [NSString stringWithFormat:@"%d%d%d%d%d%d%d%d",iCount1,iCount2,iCount3,iCount4,iCount5,iCount6,iCount7,iCount8];
         [config setObject:strTemp forKey:G_DEVICE_ID];
         [config synchronize];
     }

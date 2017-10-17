@@ -7,11 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+
 @class DEMONavigationController;
 @class HomeViewController;
-@interface DEMOMenuViewController : UITableViewController <UITableViewDataSource, UITableViewDelegate,UIAlertViewDelegate>
-@property (nonatomic, strong)DEMONavigationController *navVC;
-@property (nonatomic, strong)HomeViewController *viewVC;
 
+@interface DEMOMenuViewController : UITableViewController <UITableViewDataSource, UITableViewDelegate,UIAlertViewDelegate>
+
+@property (nonatomic, strong) DEMONavigationController *navVC;
+@property (nonatomic, strong) HomeViewController *viewVC;
 
 @end

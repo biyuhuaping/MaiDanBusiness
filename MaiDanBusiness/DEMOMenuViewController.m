@@ -16,17 +16,13 @@
 #import "HelpVC.h"
 #import "AppDelegate.h"
 #import "BaseViewController.h"
+
 @implementation DEMOMenuViewController
 
-- (void)viewWillAppear:(BOOL)animated{
-    
-
-}
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
-   
     self.tableView.separatorColor = [UIColor colorWithRed:150/255.0f green:161/255.0f blue:177/255.0f alpha:1.0f];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
@@ -34,11 +30,9 @@
     self.tableView.scrollEnabled = NO;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"cebianlan-bg"]];
-   
 }
 
-#pragma mark -
-#pragma mark UITableView Delegate
+#pragma mark - UITableView Delegate
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -54,18 +48,15 @@
     self.viewVC.isAction = !self.viewVC.isAction;
     [self.viewVC left];
 
-    if (indexPath.row == 0)
+    if (indexPath.row == 0)//关于我们
     {
         AboutUsVC *controller = [[AboutUsVC alloc] init];
         [self.viewVC.navigationController pushViewController:controller animated:YES];
-
     }
-    else if (indexPath.row == 1)
+    else if (indexPath.row == 1)//使用说明
     {
         HelpVC *controller = [[HelpVC alloc] init];
         [self.viewVC.navigationController pushViewController:controller animated:YES];
-
-
     }
     else if (indexPath.row == 2) //退出登录
     {
@@ -79,8 +70,6 @@
 {
     if (buttonIndex == 1) //确定退出
     {
-        
-      
         LoginViewController *controller = [[LoginViewController alloc] init];
         controller.homeVC = self.viewVC;
         [[API shareAPI] saveLocalData:G_IS_LOGIN value:G_NO];
@@ -93,10 +82,7 @@
     }
 }
 
-
-
-#pragma mark -
-#pragma mark UITableView Datasource
+#pragma mark - UITableView Datasource
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -104,8 +90,8 @@
         return 100;
     }
     return 54;
-
 }
+
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)sectionIndex
 {
     return 140;
@@ -113,7 +99,6 @@
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
-    
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0,224, 75)];
     
     view.backgroundColor = [UIColor clearColor];

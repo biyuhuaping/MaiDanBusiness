@@ -293,9 +293,8 @@
     //消费用户请求数据
     [self requestDataFromNet:1];
 }
+
 #pragma mark  - TableView
-
-
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return _tableView.cellHeight;
@@ -346,8 +345,9 @@
     // according to the cells block code
     return self.tableView.cells(_tableView, indexPath);
 }
-#pragma mark - UITableViewDelegate
 
+
+#pragma mark - UITableViewDelegate
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
@@ -365,14 +365,11 @@
 {
     return 0.001;
 }
-#pragma mark - Actions
 
--(void)configureSelectionBlock:(MLTableAlertRowSelectionBlock)selBlock{
+#pragma mark - Actions
+- (void)configureSelectionBlock:(MLTableAlertRowSelectionBlock)selBlock{
     self.tableView.selectionBlock = selBlock;
 }
-
-
-
 
 - (void)NetW_DelAddress:(NSString *)strID
 {
@@ -401,4 +398,5 @@
 {
     [super didReceiveMemoryWarning];
 }
+
 @end

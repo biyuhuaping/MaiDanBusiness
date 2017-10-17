@@ -7,8 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+
 @class DEMOMenuViewController,HomeViewController;
+
 @interface DEMONavigationController : UINavigationController
+
 - (void)showMenu;
 - (void)showMenu1:(UIViewController *)viewVC;
 

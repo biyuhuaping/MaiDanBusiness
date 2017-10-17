@@ -12,6 +12,7 @@
 #import "CLLockVC.h"
 #import "HomeViewController.h"
 #import "DEMOMenuViewController.h"
+
 #define TAG_BUTTON_REGISTER         0x001
 #define TAG_BUTTON_DEVICEID         0x002
 #define TAG_BUTTON_SURE             0x003
@@ -33,11 +34,8 @@
 //    self.navigationController.navigationBarHidden = YES;
     self.title = @"登录";
     self.view.backgroundColor = RGBCOLOR(251, 250, 248);
-    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(returnKey:)];
-    [self.view addGestureRecognizer:tap];
     [self initUI];
 }
-
 
 - (void)initUI
 {
@@ -133,13 +131,13 @@
     
     
 }
-- (void)returnKey:(UITapGestureRecognizer *)tap{
-    [_txtMM resignFirstResponder];
-    [_txtYH resignFirstResponder];
+
+- (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
+    [self.view endEditing:YES];
 }
+
 - (void)btnPressed:(id)sender
 {
-   
     UIButton *btn = (UIButton *)sender;
     
     if (btn.tag == TAG_BUTTON_DEVICEID) //产看设备ID
@@ -231,7 +229,7 @@
 - (void)requestDataFromNet
 {
     __weak LoginViewController *weakSelf = self;
-    AppDelegate *appdelgate = [[UIApplication sharedApplication] delegate];
+    AppDelegate *appdelgate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
 
 
     NSString *strDevid =    [[API shareAPI] getLocalData: G_DEVICE_ID];
@@ -269,9 +267,7 @@
             }];
             //                }
         }
-        else{
-            
-            
+        else{            
             NSString *strResult = [responseData objectForKey:@"json_error"];
             [SVProgressHUD showErrorWithStatus:strResult];
         }

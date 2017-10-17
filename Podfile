@@ -9,5 +9,5 @@ target 'MaiDanBusiness' do
 	pod 'BlocksKit', '~> 2.2.5'
 	pod 'Masonry'
     pod 'MJExtension'
-
+    pod 'AFNetworking', '~> 3.1'
 end
