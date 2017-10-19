@@ -11,12 +11,12 @@
 #import "HomeMessage.h"
 #import "CLLockVC.h"
 #import "HomeViewController.h"
-//#import "DEMOMenuViewController.h"
+#import "DEMOMenuViewController.h"
 
-#define TAG_BUTTON_REGISTER         0x001
-#define TAG_BUTTON_DEVICEID         0x002
-#define TAG_BUTTON_SURE             0x003
-#define TAG_BUTTON_PASSWORD       0x004
+#define TAG_BUTTON_REGISTER 0x001
+#define TAG_BUTTON_DEVICEID 0x002
+#define TAG_BUTTON_SURE     0x003
+#define TAG_BUTTON_PASSWORD 0x004
 
 
 @interface LoginViewController ()
